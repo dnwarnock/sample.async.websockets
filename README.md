@@ -1,10 +1,7 @@
-# sample.async
+# sample.async.websockets
 
-This is a collection of simple applications that build on each other
-to illustrate how to create responsive applications (focusing on the 
-server-side) using EE7 technologies.
-
-
+Java EE7 added support for WebSockets. This sample contains a few variations to illustrate
+how to use WebSockets in EE7 applications.
 
 
 
