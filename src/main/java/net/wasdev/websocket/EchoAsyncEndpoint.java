@@ -31,58 +31,58 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/EchoAsyncEndpoint")
 public class EchoAsyncEndpoint {
 
+	/** CDI injection of Java EE7 Managed executor service */
+	@Resource
+	ManagedExecutorService executor;
 
-    /** CDI injection of Java EE7 Managed executor service */
-    @Resource
-    ManagedExecutorService executor;
+	@OnOpen
+	public void onOpen(Session session, EndpointConfig ec) {
+	}
 
-    @OnOpen
-    public void onOpen(Session session, EndpointConfig ec) {
-    }
+	@OnClose
+	public void onClose(Session session, CloseReason reason) {
+	}
 
-    @OnClose
-    public void onClose(Session session, CloseReason reason) {
-    }
+	int count = 0;
 
-    int count = 0;
+	@OnMessage
+	public void receiveMessage(final String message, final Session session)
+	        throws IOException {
+		if ("stop".equals(message)) {
+			session.close();
+		} else {
+			System.out.println(message + ", " + executor);
+			final int id = count++;
+			broadcast(session, "Echo " + id + ": " + message);
 
-    @OnMessage
-    public void receiveMessage(final String message, final Session session) throws IOException {
-        if ( "stop".equals(message) ) {
-            session.close();
-        } else {
-            System.out.println(message + ", " + executor);
-            final int id = count++;
-            broadcast(session, "Echo " + id + ": " + message);
+			executor.submit(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+					}
+					broadcast(session, "Delayed " + id + ": " + message);
+					System.out.println("executor -- send " + message);
+				}
+			});
+		}
+	}
 
-            executor.submit(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                    }
-                    broadcast(session, "Delayed " + id + ": " + message);
-                    System.out.println("executor -- send " + message);
-                }
-            });
-        }
-    }
+	private void broadcast(Session session, String message) {
+		for (Session s : session.getOpenSessions()) {
+			try {
+				s.getBasicRemote().sendText(message);
+			} catch (IOException e) {
+				try {
+					s.close();
+				} catch (IOException e1) {
+				}
+			}
+		}
+	}
 
-    private void broadcast(Session session, String message) {
-        for (Session s : session.getOpenSessions() ) {
-            try {
-                s.getBasicRemote().sendText(message);
-            } catch (IOException e) {
-                try {
-                    s.close();
-                } catch (IOException e1) {
-                }
-            }
-        }
-    }
-
-    @OnError
-    public void onError(Throwable t) {
-    }
+	@OnError
+	public void onError(Throwable t) {
+	}
 }

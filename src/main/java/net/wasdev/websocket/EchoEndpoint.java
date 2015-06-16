@@ -29,29 +29,38 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/EchoEndpoint")
 public class EchoEndpoint {
 
-    @OnOpen
-    public void onOpen(Session session, EndpointConfig ec) {
-    }
+	@OnOpen
+	public void onOpen(Session session, EndpointConfig ec) {
+	}
 
-    @OnClose
-    public void onClose(Session session, CloseReason reason) {
-    }
+	@OnClose
+	public void onClose(Session session, CloseReason reason) {
+	}
 
-    int count = 0;
+	int count = 0;
 
-    @OnMessage
-    public void receiveMessage(String message, Session session) throws IOException {
-        if ( "stop".equals(message) ) {
-            session.close();
-        } else {
-            int id = count++;
-            for (Session s : session.getOpenSessions() ) {
-                s.getBasicRemote().sendText("Echo " + id + ":  " + message);
-            }
-        }
-    }
+	@OnMessage
+	public void receiveMessage(String message, Session session)
+	        throws IOException {
+		// Called when a message is received
+		// Single endpoint per connection by default: @OnMessage methods are
+		// single threaded! Endpoint/per-connection instances can see each
+		// other through sessions, specifically, Endpoints are not 
+		// thread safe, but Sessions are
 
-    @OnError
-    public void onError(Throwable t) {
-    }
+		if ("stop".equals(message)) {
+			session.close();
+		} else {
+			// Look, Ma! Broadcast!
+			// Easy as pie to send the same data around to different sessions.
+			int id = count++;
+			for (Session s : session.getOpenSessions()) {
+				s.getBasicRemote().sendText("Echo " + id + ":  " + message);
+			}
+		}
+	}
+
+	@OnError
+	public void onError(Throwable t) {
+	}
 }
