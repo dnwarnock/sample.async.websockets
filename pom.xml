@@ -4,16 +4,15 @@
 
     <parent>
         <groupId>net.wasdev.maven.parent</groupId>
-        <artifactId>java6-parent</artifactId>
+        <artifactId>java7-parent</artifactId>
         <version>1.3</version>
-        <relativePath></relativePath>
     </parent>
 
     <groupId>net.wasdev.wlp.sample</groupId>
     <artifactId>async-websocket</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Liberty Profile Sample - WebSocket Sample</name>
+    <name>WAS Liberty Sample - WebSocket Sample</name>
     <url>https://wasdev.github.io</url>
 
     <licenses>
@@ -47,6 +46,11 @@
                 <artifactId>javax.json-api</artifactId>
                 <version>1.0</version>
             </dependency>
+            <dependency>
+                <groupId>javax.enterprise</groupId>
+                <artifactId>cdi-api</artifactId>
+                <version>1.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -64,7 +68,12 @@
         <dependency>
             <groupId>javax.enterprise.concurrent</groupId>
             <artifactId>javax.enterprise.concurrent-api</artifactId>
-			<scope>provided</scope>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -82,6 +91,20 @@
         </pluginManagement>
 
         <plugins>
+  			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+    			<version>2.6.1</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>wlp-usr/servers/websocketSample/apps</directory>
+							<directory>wlp-usr/servers/websocketSample/logs</directory>
+							<directory>wlp-usr/servers/websocketSample/workarea</directory>
+          					<followSymlinks>false</followSymlinks>
+        				</fileset>
+      				</filesets>
+    			</configuration>
+  			</plugin>
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.7</version>
@@ -90,16 +113,9 @@
                         <phase>package</phase>
                         <configuration>
                             <target>
-                                <!-- Create a websocketSample server directory, and copy everything
-                                     from the src/main/wlp directory into it. This allows you to store
-                                     server.xml and supporting configuration in your source tree -->
-                                <mkdir dir="${project.build.directory}/usr/servers/websocketSample"/>
-                                <copy todir="${project.build.directory}/usr/servers/websocketSample">
-                                    <fileset dir="src/main/wlp"/>
-                                </copy>
-                                <mkdir dir="${project.build.directory}/usr/servers/websocketSample/apps"/>
+                                <mkdir dir="wlp-usr/servers/websocketSample/apps"/>
                                 <copy file="${project.build.directory}/${project.build.finalName}.war"
-                                    tofile="${project.build.directory}/usr/servers/websocketSample/apps/websocket.war"/>
+                                    tofile="wlp-usr/servers/websocketSample/apps/websocket.war"/>
                             </target>
                         </configuration>
                         <goals>

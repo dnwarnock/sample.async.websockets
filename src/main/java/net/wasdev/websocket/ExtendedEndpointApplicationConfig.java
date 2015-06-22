@@ -14,6 +14,10 @@ import javax.websocket.server.ServerEndpointConfig;
  * from {@link #getAnnotatedEndpointClasses(Set).
  * <p>
  * The following quotes from the official javadoc, to help with context.
+ * </p><p>
+ * If you have no programmatic endpoints, you don't have to provide an instance of this
+ * this class. You could use this to filter the annotated classes you want to return
+ * (as an example).
  *
  * @see ServerEndpointConfig.Builder
  * @see ServerEndpointConfig.Configurator
@@ -23,12 +27,9 @@ public class ExtendedEndpointApplicationConfig implements ServerApplicationConfi
 	/**
 	 * If you define one of these (which you have to for programmatic
 	 * endpoints), and have a mix of annotated and programmatic endpoints (which
-	 * this example does), make sure you return the classes with annotations
+	 * this example does), make sure you return classes with annotations
 	 * here!
-	 * <p>
-	 * If you have no programmatic endpoints, there is no need to provide an
-	 * instance of this interface.
-	 * 
+	 *
 	 * @param scanned
 	 *            the set of all the annotated endpoint classes in the archive
 	 *            containing the implementation of this interface.
@@ -38,15 +39,20 @@ public class ExtendedEndpointApplicationConfig implements ServerApplicationConfi
 	 */
 	@Override
 	public Set<Class<?>> getAnnotatedEndpointClasses(Set<Class<?>> scanned) {
-		HashSet<Class<?>> set = new HashSet<Class<?>>();
-		set.add(SimpleEndpoint.class);
-		set.add(EchoEndpoint.class);
-		set.add(EchoAsyncEndpoint.class);
-		set.add(EchoEncoderEndpoint.class);
-		return set;
+		return scanned;
 	}
 
 	/**
+	 * Create configurations for programmatic endpoints that should be
+	 * deployed using a . The string value is the URI relative to your app’s
+	 * context root, similar to the value provided in the @ServerEndpoint
+	 * annotation, e.g. the context root for this example application
+	 * is <code>websocket</code>, which makes the WebSocket URL used to
+	 * reach this endpoint
+	 * <code>ws://localhost/websocket/ExtendedEndpoint</code>.
+	 * The ServerEndpointConfig can also be used to configure additional
+	 * protocols, and extensions.
+	 *
 	 * @param endpointClasses
 	 *            the set of all the Endpoint classes in the archive containing
 	 *            the implementation of this interface.
@@ -60,15 +66,6 @@ public class ExtendedEndpointApplicationConfig implements ServerApplicationConfi
 	        Set<Class<? extends Endpoint>> endpointClasses) {
 		HashSet<ServerEndpointConfig> set = new HashSet<ServerEndpointConfig>();
 
-		// Create a configuration for the programmatic endpoint that should be
-		// deployed. The string value is the URI relative to your app’s
-		// context root, similar to the value provided in the @ServerEndpoint
-		// annotation, e.g. the context root for this example application
-		// is <code>websocket</code>, which makes the WebSocket URL used to
-		// reach this endpoint
-		// <code>ws://localhost/websocket/ExtendedEndpoint</code>.
-		// The ServerEndpointConfig can also be used to configure additional
-		// protocols, and extensions.
 		set.add(ServerEndpointConfig.Builder.create(ExtendedEndpoint.class,
 		        "/ExtendedEndpoint").build());
 
