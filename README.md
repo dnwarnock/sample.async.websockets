@@ -42,20 +42,15 @@ This sample can be build using [Apache Maven](http://maven.apache.org/).
 ```bash
 $ mvn install
 ```
-
-In addition to building the application war, this also creates a Liberty usr directory structure in the target dir that contains two server definitions: one for running via the command line, and one that is suited for use in WDT for live development with incremental publish. The structure looks something like this:
-
-```text
-sample.async.websockets
-   +- target
-      +- usr
-         +- servers
-            +- websocketSample
-               - apps/websocket.war
-               - server.xml
-            +- websocketSample-wdt
-               - apps/websocket.war.xml
-               - server.xml
+ In addition to publishing the war to the local maven repository, the built war file is copied into the apps directory of the server configuration located in the async-websocket-wlpcfg directory:
+```async-websocket-wlpcfg
+ +- servers
+     +- websocketSample       <-- specific server configuration
+        +- server.xml         <-- server configuration
+        +- apps               <-- directory for applications
+           +- websocket.war   <-- sample application
+        +- logs               <-- created if/when you run the server locally
+        +- workarea           <-- created if/when you run the server locally
 ```
 
 ## Starting the server
