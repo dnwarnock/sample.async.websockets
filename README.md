@@ -1,11 +1,14 @@
 # Java EE7: WebSockets
 
-Java EE7 added support for WebSockets. This sample contains a few variations
-to illustrate how to use WebSockets in EE7 applications.
+Java EE7 added support for WebSockets. This sample contains a few variations to illustrate how to use WebSockets in EE7 applications.
 
 * [Building with maven](#building-with-maven)
 * [Downloading WAS Liberty](#downloading-was-liberty)
 * [Starting the server](#starting-the-server)
+* [Using Eclipse and WebSphere Development Tools (WDT)](#eclipse--wdt)
+
+
+
 
 ## Building with maven
 
@@ -19,22 +22,20 @@ $ mvn install
 ```text
 async-websocket-wlpcfg
  +- servers
-     +- websocketSample       <-- specific server configuration
-        +- server.xml         <-- server configuration
-        +- apps               <-- directory for applications
-           +- websocket.war   <-- sample application
-        +- logs               <-- created if/when you run the server locally
-        +- workarea           <-- created if/when you run the server locally
+     +- websocketSample       			<-- specific server configuration
+        +- server.xml         			<-- server configuration
+        +- apps               			<-- directory for applications
+           +- async-websocket-application.war   <-- sample application
+        +- logs               			<-- created if/when you run the server locally
+        +- workarea           			<-- created if/when you run the server locally
 ```
 
 
 ## Downloading WAS Liberty
 
-There are lots of ways to get your hands on WAS Liberty, but two of them follow. Note that you will need a version of Liberty that has support for Servlet 3.1, WebSockets 1.1, and CDI 1.2 for this sample, as it has a little bit of all of those (Java EE 7 Web Profile will do).
+There are lots of ways to get your hands on WAS Liberty. Note that you will need a version of Liberty that has support for Servlet 3.1, WebSockets 1.1, and CDI 1.2 for this sample, as it has a little bit of all of those (Java EE 7 Web Profile will do).
 
-### Direct download
-
-To download just the WAS Liberty runtime, go to the [wasdev.net Downloads page][wasdev], and choose between the [latest version of the runtime][wasdev-latest] or the [latest beta][wasdev-beta].
+To download just the WAS Liberty runtime, go to the [wasdev.net Downloads page][wasdev], and choose between the [latest version of the runtime][wasdev-latest] or the [latest beta][wasdev-beta]. You can also download Liberty via [Eclipse and WDT](#eclipse--wdt)
 
 There are a few options to choose from (especially for the beta drivers): choose the one that is most appropriate.
 * There are convenience archives for downloading pre-defined content groupings,
@@ -46,56 +47,16 @@ There are a few options to choose from (especially for the beta drivers): choose
 [installUtility]: http://www-01.ibm.com/support/knowledgecenter/#!/was_beta_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_command_installutility.html
 
 
-### Eclipse / WDT
-
-The WebSphere Development Tools (WDT) for Eclipse can be used to control the server (start/stop/dump/etc.), it also supports incremental publishing with minimal restarts, working with a debugger to step through your applications, etc.
-
-WDT also provides:
-
-* content-assist for server configuration (a nice to have: server configuration is minimal, but the tools can help you find what you need and identify finger-checks, etc.)
-* automatic incremental publish of applications so that you can write and test your changes locally without having to go through a build/publish cycle or restart the server (which is not that big a deal given the server restarts lickety-split, but less is more!).
-
-Installing WDT on Eclipse is as simple as a drag-and-drop, but the process is explained [on wasdev.net] [wasdev-wdt].
-
-For the purposes of this sample, we will create the Liberty server (step 3 in the wasdev.net instructions) a little differently:
-
-1. After building with maven, import the sample into Eclipse using
-*(File or right-click in an explorer view) -> Import -> Maven -> Existing Maven Projects*
-    * This will create 3 projects in Eclipse: async-websocket, async-websocket-application, and async-websocket-wlpcfg
-2. Create a Runtime Environment in Eclipse
-	1. Open the 'Runtime Explorer' view:
-		* *Window -> Show View -> Other*
-		* type `runtime` in the filter box to find the view (it's under the Server heading).
-	2. Right-click in the view, and select *New -> Runtime Environment*
-	3. Give the Runtime environment a name, e.g. `wlp-2015.6.0.0` if you're using the June 2015 beta.
-	4. Either:
-	    * Select an existing installation (perhaps what you downloaded earlier, if you followed those instructions), or
-	    * select *Install from an archive or a repository* to download a new Liberty archive.
-	5. Follow the prompts (and possibly choose additional features to install) until you *Finish* creating the Runtime Environment
-3. *TODO/FIXME* Add the User directory from the maven project
-	1. *Right-click -> Edit* the Runtime Environment created above
-	2. Click the `Advanced Options...` link
-    3. If the `async-websocket-wlpcfg` directory is not listed as a User Directory, we need to add it:
-        1. Click New
-        2. Select "Use an external User Directory", and choose the path to the async-websocket-wlpcfg dir, e.g. `/path/to/sample.async.websockets/async-websocket-wlpcfg`
-    4. You should see the user directory listed under the Runtime Environment in the Runtime Explorer view.
-3. Create a Server to represent our application and maven configuration in Eclipse
-	1. From the Runtime Explorer view, *Right-click* on the async-websocket-wlpcfg user directory associated with the target runtime, and select *New Server*.
-	2. The resulting dialog should be pre-populated with the websocketSample Liberty profile server.
-	3. Click Finish
-
-*Note:* This step is trying something experimental, so please let us know if you like it!
-
-[wasdev-wdt]: https://developer.ibm.com/wasdev/downloads/liberty-profile-using-eclipse/
-
-
 ## Starting the server
 
-There are a few options for starting the server, three of which are below. Once the server has been started, go to [http://localhost:9082/websocket/](http://localhost:9082/websocket/) to view the sample.
+You can run the server directly from the command line, or use our liberty-maven-plugin, or you can use [Eclipse and WDT](#eclipse--wdt).
+
+Once the server has been started, go to [http://localhost:9082/websocket/](http://localhost:9082/websocket/) to view the sample.
+
 
 ### Running on the command line
 
-Based on the server directory generated above, running the build application is easy:
+Based on the server directory generated above, use the following to start the server and run the application:
 
 ```bash
 $ export WLP_USER_DIR=/path/to/sample.async.websockets/async-websocket-wlpcfg
@@ -108,7 +69,6 @@ $ /path/to/wlp/bin/server run websocketSample
 ```bash
 $ tail -f ${WLP_USER_DIR}/servers/websocketSample/logs/console.log
 ```
-
 
 *Note/Option:* The maven target will clean server output (logs and workarea, etc) from the async-websocket-wlpcfg directory, however, if you wanted to maintain strict separation between what is checked into async-websocket-wlpcfg and what is generated by a running server, you could also specify the WLP_OUTPUT_DIR environment variable, e.g. into the maven target directory.
 
@@ -124,18 +84,81 @@ The liberty-maven-plugin can also control and manipulate the server for use in a
 * TODO: more here. I know, you're impatient. Stop gnashing your teeth at me.
 
 
-### Using WDT
+### Eclipse / WDT
+
+The WebSphere Development Tools (WDT) for Eclipse can be used to control the server (start/stop/dump/etc.), it also supports incremental publishing with minimal restarts, working with a debugger to step through your applications, etc.
+
+WDT also provides:
+
+* content-assist for server configuration (a nice to have: server configuration is minimal, but the tools can help you find what you need and identify finger-checks, etc.)
+* automatic incremental publish of applications so that you can write and test your changes locally without having to go through a build/publish cycle or restart the server (which is not that big a deal given the server restarts lickety-split, but less is more!).
+
+Installing WDT on Eclipse is as simple as a drag-and-drop, but the process is explained [on wasdev.net] [wasdev-wdt].
+
+[wasdev-wdt]: https://developer.ibm.com/wasdev/downloads/liberty-profile-using-eclipse/
+
+#### Clone Git Repo
+
+If the sample git repository hasn't been cloned yet, WDT has git tools integrated into the IDE:
+1.	Open the Git repositories view
+* Window -> Show View -> Other
+* Type "git" in the filter box, and select "Git Repositories"
+2.	Copy Git repo url by finding the textbox under " HTTPS clone URL" at the top of this page, and select "Copy to clipboard"
+3.	In the Git repositories view, select the hyperlink "Clone a Git repository"
+4.	The git repo url should already be filled in.  Select "Next "-> "Next" -> "Finish"
+5.	The "sample.async.websockets [master]" repo should appear in the view
+
+#### Import Maven projects into WDT
+
+1.	In the Git Repository view, expand the websocket repo to see the "Working Directory" folder
+2.	Right-click on this folder, and select "Copy path to Clipboard"
+3.	Select menu "File" -> "Import" -> Maven -> "Existing Maven Projects"
+4.	In the Root Directory textbox, Paste in the repository directory.
+5.	Select Browse... button and select Finish (confirm it finds 3 pom.xml files)
+6.	This will create 3 projects in Eclipse: async-websocket, async-websocket-application, and async-websocket-wlpcfg
+
+*Note:* If you did not use Eclipse/WDT to clone the git repository, follow from step 3, but navigate to the cloned repository directory rather than pasting its name.
+
+#### Create a Runtime Environment and a Liberty Server
+
+For the purposes of this sample, we will create the Liberty server (step 3 in the wasdev.net instructions) a little differently:
+
+1. Create a Runtime Environment in Eclipse
+	1. Open the 'Runtime Explorer' view:
+		* *Window -> Show View -> Other*
+		* type `runtime` in the filter box to find the view (it's under the Server heading).
+	2. Right-click in the view, and select *New -> Runtime Environment*
+	3. Give the Runtime environment a name, e.g. `wlp-2015.6.0.0` if you're using the June 2015 beta.
+	4. Either:
+	    * Select an existing installation (perhaps what you downloaded earlier, if you followed those instructions), or
+	    * select *Install from an archive or a repository* to download a new Liberty archive.
+	5. Follow the prompts (and possibly choose additional features to install) until you *Finish* creating the Runtime Environment
+2. Add the User directory from the maven project
+	1. *Right-click -> Edit* the Runtime Environment created above
+	2. Click the `Advanced Options...` link
+        3. If the `async-websocket-wlpcfg` directory is not listed as a User Directory, we need to add it:
+        	1. Click New
+        	2. Select the async-websocket-wlpcfg project
+        	3. Select Finish, OK, Finish
+    	4. You should see the `async-websocket-wlpcfg` listed under the Runtime Environment in the Runtime Explorer view.
+3. Create a Server to represent our application and maven configuration in Eclipse
+	1. From the Runtime Explorer view, *Right-click* on the async-websocket-wlpcfg user directory associated with the target runtime, and select *New Server*.
+	2. The resulting dialog should be pre-populated with the websocketSample Liberty profile server.
+	3. Click Finish
+
+#### Running application from WDT
+
+1.	Select the "async-websocket-application" project
+2.	Right-click -> "Run As..." -> "Run On Server"
+3.	Select the "WebShere Application Server under localhost" folder, and select "Finish"
+4.	Confirm web browser opens on " http://localhost:9082/websocket/" with 5 hyperlinks to run samples
 
 
 
 
 ## Tips
 
-* When importing the existing maven project into Eclipse, Eclipse will (by default)
-  "helpfully" add this project to an (extraneous) ear. To turn this off, go to
-  Preferences -> Java EE -> Project, and uncheck "Add project to an EAR" before you
-  import the project. If you forgot to do this, just delete the ear project; no harm.
-
+* When importing the existing maven project into Eclipse, Eclipse will (by default) "helpfully" add this project to an (extraneous) ear. To turn this off, go to Preferences -> Java EE -> Project, and uncheck "Add project to an EAR" before you import the project. If you forgot to do this, just delete the ear project; no harm.
 
 * If you use bash, consider trying the [command line tools](https://github.com/WASdev/util.bash.completion), which provide tab-completion for the server and other commands.
 
