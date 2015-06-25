@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>WebSockets Samples</title>
+</head>
+<body>
+
+<ul>
+    <li><a id="simple" href="#">Simple Annotated WebSocket</a></li>
+    <li><a id="programmatic" href="#">Simple Programmatic WebSocket</a></li>
+    <li><a id="echo" href="#">Echo sample</a></li>
+    <li><a id="echoAsync" href="#">Echo async sample</a></li>
+    <li><a id="echoEncoder" href="#">Echo sample with Encoder/Decoder</a></li>
+</ul>
+
+<h3 id="sampleType"></h3>
+<div id="sampleDescription"></div>
+<form id="simpleForm" style="visibility: hidden">
+    <input type="text" id="inputmessage" size="50" placeholder="type something and press ENTER, use 'stop' to close the connection"/>
+</form>
+<h4 id="sampleOutput" style="visibility: hidden">Activity:</h4>
+<div id="messages"></div>
+
+<script type="text/javascript">
+    document.getElementById('simpleForm').addEventListener('submit', submit, false);
+    function submit(event) {
+        event.preventDefault();
+        send();
+    }
+
+    document.getElementById('simple').onclick = function() {
+        init('Annotated websocket (see server logs)', 
+            '/websocket/SimpleAnnotated',
+            '<p>This sample sends simple messages (that you provide) to the server. '
+            + 'The server then sends back what it receives (only to this session).</p>'
+            + "<p>Sending 'stop' prompts the server to close the connection."
+            + '<br/>The server endpoint for this sample is a simple POJO with annotations.</p>');
+        return false;
+    };
+
+    document.getElementById('programmatic').onclick = function() {
+        init('Programmatic websocket (see server logs)', 
+            '/websocket/ProgrammaticEndpoint',
+            '<p>This sample sends simple messages (that you provide) to the server. '
+            + 'The server then sends back what it receives (only to this session).</p>'
+            + "<p>Sending 'stop' prompts the server to close the connection."
+            + "<br />Sending 'clear' will clear the activity shown below."
+            + '<br/>The server endpoint for this sample is a programmatic endpoint that extends <code>javax.websocket.Endpoint</code>.</p>');
+        return false;
+    };
+
+    document.getElementById('echo').onclick = function() {
+        init('Echo: simple broadcast -- try with multiple browsers!', 
+            '/websocket/EchoEndpoint',
+            '<p>This sample sends simple messages (that you provide) to the server. '
+            + 'The server then broadcasts what it receives to all established sessions.</p>'
+            + "<p>Sending 'stop' prompts the server to close the connection."
+            + "<br />Sending 'clear' will clear the activity shown below."
+            + '<br/>The server endpoint for this sample is a simple POJO with annotations.</p>');
+        return false;
+    };
+    ;
+    document.getElementById('echoAsync').onclick = function() {
+        init('Echo: simple broadcast with asynchronous delay -- try with multiple browsers!', 
+            '/websocket/EchoAsyncEndpoint',
+            '<p>This sample sends simple messages (that you provide) to the server. '
+            + 'The server then broadcasts what it receives to all established sessions '
+            + 'and queues an executor to re-broadcast that message after a small delay.</p>'
+            + "<p>Sending 'stop' prompts the server to close the connection."
+            + "<br />Sending 'clear' will clear the activity shown below."
+            + '<br/>The server endpoint for this sample is a simple POJO with annotations.</p>');
+        return false;
+    };
+    ;
+    document.getElementById('echoEncoder').onclick = function() {
+        initEncoder('Echo: simple broadcast with encoder/decoder -- try with multiple browsers!', 
+                   '/websocket/EchoEncoderEndpoint',
+                   '<p>This sample sends simple messages (that you provide) to the server. '
+                   + 'The text you enter is converted to a JSON object before being sent to the server. '
+                   + 'The server uses a decoder to unpack the JSON object, adds an attribute, and uses an encoder to broadcast the modified JSON object to all established sessions.<p>'
+                   + "<p>Sending 'stop' prompts the server to close the connection."
+                   + "<br />Sending 'clear' will clear the activity shown below."
+                   + '<br/>The server endpoint for this sample is a simple POJO with annotations.</p>');
+        return false;
+    };
+</script>
+<script type="text/javascript" src="websocketClient.js"></script>
+</body>
+</html>

@@ -35,23 +35,36 @@ public class EchoAsyncEndpoint {
 	@Resource
 	ManagedExecutorService executor;
 
+	/**
+	 * Annotated @OnOpen method
+	 * @param session
+	 * @param ec
+	 */
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig ec) {
+		// (lifecycle) Called when the connection is opened
+		Hello.log(this, "I'm open!");
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
+		// (lifecycle) Called when the connection is closed
+		Hello.log(this, "I'm closed!");
 	}
 
 	int count = 0;
 
 	@OnMessage
-	public void receiveMessage(final String message, final Session session)
-	        throws IOException {
+	public void receiveMessage(final String message, final Session session) throws IOException {
+		// Called when a message is received. 
+		// Single endpoint per connection by default --> @OnMessage methods are single threaded!
+		// Endpoint/per-connection instances can see each other through sessions.
+
 		if ("stop".equals(message)) {
+			Hello.log(this, "I was asked to stop, " + this);
 			session.close();
 		} else {
-			System.out.println(message + ", " + executor);
+			Hello.log(this, "I got a message: " + message);
 			final int id = count++;
 			broadcast(session, "Echo " + id + ": " + message);
 
@@ -63,7 +76,7 @@ public class EchoAsyncEndpoint {
 					} catch (InterruptedException e) {
 					}
 					broadcast(session, "Delayed " + id + ": " + message);
-					System.out.println("executor -- send " + message);
+					Hello.log(this, "executor -- send " + message);
 				}
 			});
 		}
@@ -84,5 +97,7 @@ public class EchoAsyncEndpoint {
 
 	@OnError
 	public void onError(Throwable t) {
+		// (lifecycle) Called if/when an error occurs and the connection is disrupted
+		Hello.log(this, "oops: " + t);
 	}
 }
