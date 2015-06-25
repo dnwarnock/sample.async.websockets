@@ -22,12 +22,12 @@ $ mvn install
 ```text
 async-websocket-wlpcfg
  +- servers
-     +- websocketSample       			<-- specific server configuration
-        +- server.xml         			<-- server configuration
-        +- apps               			<-- directory for applications
-           +- async-websocket-application.war   <-- sample application
-        +- logs               			<-- created if/when you run the server locally
-        +- workarea           			<-- created if/when you run the server locally
+     +- websocketSample                        <-- specific server configuration
+        +- server.xml                          <-- server configuration
+        +- apps                                <- directory for applications
+           +- async-websocket-application.war  <- sample application
+        +- logs                                <- created by running the server locally
+        +- workarea                            <- created by running the server locally
 ```
 
 
@@ -100,22 +100,22 @@ Installing WDT on Eclipse is as simple as a drag-and-drop, but the process is ex
 #### Clone Git Repo
 
 If the sample git repository hasn't been cloned yet, WDT has git tools integrated into the IDE:
-1.	Open the Git repositories view
+1.  Open the Git repositories view
 * Window -> Show View -> Other
 * Type "git" in the filter box, and select "Git Repositories"
-2.	Copy Git repo url by finding the textbox under " HTTPS clone URL" at the top of this page, and select "Copy to clipboard"
-3.	In the Git repositories view, select the hyperlink "Clone a Git repository"
-4.	The git repo url should already be filled in.  Select "Next "-> "Next" -> "Finish"
-5.	The "sample.async.websockets [master]" repo should appear in the view
+2.  Copy Git repo url by finding the textbox under " HTTPS clone URL" at the top of this page, and select "Copy to clipboard"
+3.  In the Git repositories view, select the hyperlink "Clone a Git repository"
+4.  The git repo url should already be filled in.  Select "Next "-> "Next" -> "Finish"
+5.  The "sample.async.websockets [master]" repo should appear in the view
 
 #### Import Maven projects into WDT
 
-1.	In the Git Repository view, expand the websocket repo to see the "Working Directory" folder
-2.	Right-click on this folder, and select "Copy path to Clipboard"
-3.	Select menu "File" -> "Import" -> Maven -> "Existing Maven Projects"
-4.	In the Root Directory textbox, Paste in the repository directory.
-5.	Select Browse... button and select Finish (confirm it finds 3 pom.xml files)
-6.	This will create 3 projects in Eclipse: async-websocket, async-websocket-application, and async-websocket-wlpcfg
+1.  In the Git Repository view, expand the websocket repo to see the "Working Directory" folder
+2.  Right-click on this folder, and select "Copy path to Clipboard"
+3.  Select menu "File" -> "Import" -> Maven -> "Existing Maven Projects"
+4.  In the Root Directory textbox, Paste in the repository directory.
+5.  Select Browse... button and select Finish (confirm it finds 3 pom.xml files)
+6.  This will create 3 projects in Eclipse: async-websocket, async-websocket-application, and async-websocket-wlpcfg
 
 *Note:* If you did not use Eclipse/WDT to clone the git repository, follow from step 3, but navigate to the cloned repository directory rather than pasting its name.
 
@@ -124,37 +124,34 @@ If the sample git repository hasn't been cloned yet, WDT has git tools integrate
 For the purposes of this sample, we will create the Liberty server (step 3 in the wasdev.net instructions) a little differently:
 
 1. Create a Runtime Environment in Eclipse
-	1. Open the 'Runtime Explorer' view:
-		* *Window -> Show View -> Other*
-		* type `runtime` in the filter box to find the view (it's under the Server heading).
-	2. Right-click in the view, and select *New -> Runtime Environment*
-	3. Give the Runtime environment a name, e.g. `wlp-2015.6.0.0` if you're using the June 2015 beta.
-	4. Either:
-	    * Select an existing installation (perhaps what you downloaded earlier, if you followed those instructions), or
-	    * select *Install from an archive or a repository* to download a new Liberty archive.
-	5. Follow the prompts (and possibly choose additional features to install) until you *Finish* creating the Runtime Environment
+    1. Open the 'Runtime Explorer' view:
+        * *Window -> Show View -> Other*
+        * type `runtime` in the filter box to find the view (it's under the Server heading).
+    2. Right-click in the view, and select *New -> Runtime Environment*
+    3. Give the Runtime environment a name, e.g. `wlp-2015.6.0.0` if you're using the June 2015 beta.
+    4. Either:
+        * Select an existing installation (perhaps what you downloaded earlier, if you followed those instructions), or
+        * select *Install from an archive or a repository* to download a new Liberty archive.
+    5. Follow the prompts (and possibly choose additional features to install) until you *Finish* creating the Runtime Environment
 2. Add the User directory from the maven project
-	1. *Right-click -> Edit* the Runtime Environment created above
-	2. Click the `Advanced Options...` link
+    1. *Right-click -> Edit* the Runtime Environment created above
+    2. Click the `Advanced Options...` link
         3. If the `async-websocket-wlpcfg` directory is not listed as a User Directory, we need to add it:
-        	1. Click New
-        	2. Select the async-websocket-wlpcfg project
-        	3. Select Finish, OK, Finish
-    	4. You should see the `async-websocket-wlpcfg` listed under the Runtime Environment in the Runtime Explorer view.
+            1. Click New
+            2. Select the async-websocket-wlpcfg project
+            3. Select Finish, OK, Finish
+        4. You should see the `async-websocket-wlpcfg` listed under the Runtime Environment in the Runtime Explorer view.
 3. Create a Server to represent our application and maven configuration in Eclipse
-	1. From the Runtime Explorer view, *Right-click* on the async-websocket-wlpcfg user directory associated with the target runtime, and select *New Server*.
-	2. The resulting dialog should be pre-populated with the websocketSample Liberty profile server.
-	3. Click Finish
+    1. From the Runtime Explorer view, *Right-click* on the async-websocket-wlpcfg user directory associated with the target runtime, and select *New Server*.
+    2. The resulting dialog should be pre-populated with the websocketSample Liberty profile server.
+    3. Click Finish
 
 #### Running application from WDT
 
-1.	Select the "async-websocket-application" project
-2.	Right-click -> "Run As..." -> "Run On Server"
-3.	Select the "WebShere Application Server under localhost" folder, and select "Finish"
-4.	Confirm web browser opens on " http://localhost:9082/websocket/" with 5 hyperlinks to run samples
-
-
-
+1.  Select the "async-websocket-application" project
+2.  Right-click -> "Run As..." -> "Run On Server"
+3.  Select the "WebShere Application Server under localhost" folder, and select "Finish"
+4.  Confirm web browser opens on " http://localhost:9082/websocket/" with 5 hyperlinks to run samples
 
 ## Tips
 
