@@ -31,10 +31,13 @@ public class EchoEndpoint {
 
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig ec) {
+		// (lifecycle) Called when the connection is opened
+		Hello.log(this, "I'm open!");
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
+		Hello.log(this, "I'm closed!");
 	}
 
 	int count = 0;
@@ -42,15 +45,15 @@ public class EchoEndpoint {
 	@OnMessage
 	public void receiveMessage(String message, Session session)
 	        throws IOException {
-		// Called when a message is received
-		// Single endpoint per connection by default: @OnMessage methods are
-		// single threaded! Endpoint/per-connection instances can see each
-		// other through sessions, specifically, Endpoints are not 
-		// thread safe, but Sessions are
+		// Called when a message is received. 
+		// Single endpoint per connection by default --> @OnMessage methods are single threaded!
+		// Endpoint/per-connection instances can see each other through sessions.
 
 		if ("stop".equals(message)) {
 			session.close();
 		} else {
+			Hello.log(this, "I got a message: " + message);
+
 			// Look, Ma! Broadcast!
 			// Easy as pie to send the same data around to different sessions.
 			int id = count++;
@@ -62,5 +65,7 @@ public class EchoEndpoint {
 
 	@OnError
 	public void onError(Throwable t) {
+		// (lifecycle) Called if/when an error occurs and the connection is disrupted
+		Hello.log(this, "oops: " + t);
 	}
 }

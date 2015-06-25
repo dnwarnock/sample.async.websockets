@@ -12,5 +12,7 @@
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
     <httpEndpoint httpPort="9082" httpsPort="9445" id="defaultHttpEndpoint"/>
 
-    <webApplication id="websocket" location="websocket.war" name="websocket" />
+    <applicationMonitor updateTrigger="mbean"/>
+
+    <webApplication id="async-websocket-application" location="async-websocket-application.war" name="async-websocket-application"/>
 </server>

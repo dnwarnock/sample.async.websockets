@@ -50,37 +50,34 @@ public class SimpleEndpoint {
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig ec) {
 		// (lifecycle) Called when the connection is opened
-		System.out.println("Hello world, I'm open! " + this);
+		Hello.log(this, "I'm open!");
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
 		// (lifecycle) Called when the connection is closed
-		System.out.println("Hello world, I'm closed! " + this);
+		Hello.log(this, "I'm closed!");
 	}
 
 	@OnMessage
-	public void receiveMessage(String message, Session session)
-	        throws IOException {
-		// Called when a message is received
-		// Single endpoint per connection by default: @OnMessage methods are
-		// single threaded!
-		// Endpoint/per-connection instances can see each other through
-		// sessions:
-		// Endpoints are not thread safe, but Sessions are
+	public void receiveMessage(String message, Session session) throws IOException {
+		// Called when a message is received. 
+		// Single endpoint per connection by default --> @OnMessage methods are single threaded!
+		// Endpoint/per-connection instances can see each other through sessions.
+
 		if ("stop".equals(message)) {
-			System.out.println("Hello world, I was asked to stop, " + this);
+			Hello.log(this, "I was asked to stop, " + this);
 			session.close();
 		} else {
-			System.out.println("Hello world, I got a message: " + message
-			        + ", " + this);
+			Hello.log(this, "I got a message: " + message);
+			// Send something back to the client for feedback
+            session.getBasicRemote().sendText("server received:  " + message);
 		}
 	}
 
 	@OnError
 	public void onError(Throwable t) {
-		// (lifecycle) Called if/when an error occurs and the connection is
-		// disrupted
-		System.out.println("Hello world! Also, oops: " + t + ",  " + this);
+		// (lifecycle) Called if/when an error occurs and the connection is disrupted
+		Hello.log(this, "oops: " + t);
 	}
 }

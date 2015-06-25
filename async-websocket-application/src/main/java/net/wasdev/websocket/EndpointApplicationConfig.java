@@ -22,7 +22,7 @@ import javax.websocket.server.ServerEndpointConfig;
  * @see ServerEndpointConfig.Builder
  * @see ServerEndpointConfig.Configurator
  */
-public class ExtendedEndpointApplicationConfig implements ServerApplicationConfig {
+public class EndpointApplicationConfig implements ServerApplicationConfig {
 
 	/**
 	 * If you define one of these (which you have to for programmatic
@@ -39,6 +39,7 @@ public class ExtendedEndpointApplicationConfig implements ServerApplicationConfi
 	 */
 	@Override
 	public Set<Class<?>> getAnnotatedEndpointClasses(Set<Class<?>> scanned) {
+		System.out.println(scanned);
 		return scanned;
 	}
 
@@ -64,10 +65,12 @@ public class ExtendedEndpointApplicationConfig implements ServerApplicationConfi
 	@Override
 	public Set<ServerEndpointConfig> getEndpointConfigs(
 	        Set<Class<? extends Endpoint>> endpointClasses) {
+		System.out.println(endpointClasses);
+
 		HashSet<ServerEndpointConfig> set = new HashSet<ServerEndpointConfig>();
 
-		set.add(ServerEndpointConfig.Builder.create(ExtendedEndpoint.class,
-		        "/ExtendedEndpoint").build());
+		set.add(ServerEndpointConfig.Builder.create(ProgrammaticEndpoint.class,
+		        "/ProgrammaticEndpoint").build());
 
 		return set;
 	}

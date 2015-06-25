@@ -41,7 +41,7 @@ import javax.websocket.server.ServerEndpointConfig;
  * @see ExtendedEndpointApplicationConfig
  * @see ServerEndpointConfig.Configurator
  */
-public class ExtendedEndpoint extends Endpoint {
+public class ProgrammaticEndpoint extends Endpoint {
 
 	@Override
 	public void onOpen(final Session session, EndpointConfig ec) {
@@ -51,35 +51,38 @@ public class ExtendedEndpoint extends Endpoint {
 			@Override
 			public void onMessage(String message) {
 				if ("stop".equals(message)) {
-					System.out.println("Hello world, I was asked to stop, "
-					        + this);
+					Hello.log(this, "I was asked to stop");
 					try {
 						session.close();
 					} catch (IOException e) {
-						Logger.getLogger(ExtendedEndpoint.class.getName()).log(
-						        Level.SEVERE, null, e);
+						Logger.getLogger(ProgrammaticEndpoint.class.getName()).log(Level.SEVERE, null, e);
 					}
 				} else {
-					System.out.println("Hello world, I got a message: "
-					        + message + ", " + this);
+					Hello.log(this, "I got a message: " + message);
+					// Send something back to the client for feedback
+					try {
+	                    session.getBasicRemote().sendText("server received:  " + message);
+                    } catch (IOException e) {
+                    	// oh well.
+                    }
 				}
 			}
 		});
 
 		// (lifecycle) Called when the connection is opened
-		System.out.println("Hello world, I'm open! " + this);
+		Hello.log(this, "I'm open!");
 	}
 
 	@Override
 	public void onClose(Session session, CloseReason reason) {
 		// (lifecycle) Called when the connection is closed
-		System.out.println("Hello world, I'm closed! " + this);
+		Hello.log(this, "I'm closed!");
 	}
 
 	@Override
 	public void onError(Session session, Throwable t) {
 		// (lifecycle) Called if/when an error occurs and the connection is
 		// disrupted
-		System.out.println("Hello world! Also, oops: " + t + ",  " + this);
+		Hello.log(this, "oops: " + t);
 	}
 }
