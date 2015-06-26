@@ -86,6 +86,25 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="../async-websocket-wlpcfg/servers/websocketSample/apps"/>
+                                <copy file="${project.build.directory}/${project.build.finalName}.war"
+                                    tofile="../async-websocket-wlpcfg/servers/websocketSample/apps/async-websocket-application.war"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                           <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
