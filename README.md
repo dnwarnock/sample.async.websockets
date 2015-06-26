@@ -8,8 +8,6 @@ Java EE7 added support for WebSockets. This sample contains a few variations to 
 * [Using Eclipse and WebSphere Development Tools (WDT)](#eclipse--wdt)
 
 
-
-
 ## Building with maven
 
 This sample can be build using [Apache Maven](http://maven.apache.org/).
@@ -84,6 +82,8 @@ The liberty-maven-plugin can also control and manipulate the server for use in a
 * TODO: more here. I know, you're impatient. Stop gnashing your teeth at me.
 
 
+[ [back to top](#java-ee7-websockets) ]
+
 ### Eclipse / WDT
 
 The WebSphere Development Tools (WDT) for Eclipse can be used to control the server (start/stop/dump/etc.), it also supports incremental publishing with minimal restarts, working with a debugger to step through your applications, etc.
@@ -152,6 +152,9 @@ For the purposes of this sample, we will create the Liberty server (step 3 in th
 2.  Right-click -> "Run As..." -> "Run On Server"
 3.  Select the "WebShere Application Server under localhost" folder, and select "Finish"
 4.  Confirm web browser opens on " http://localhost:9082/websocket/" with 5 hyperlinks to run samples
+
+
+[ [back to top](#java-ee7-websockets) ]
 
 ## Tips
 
