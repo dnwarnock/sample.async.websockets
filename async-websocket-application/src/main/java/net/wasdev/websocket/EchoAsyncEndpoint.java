@@ -28,6 +28,29 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+/**
+ * Example of a simple POJO defining a WebSocket server endpoint using
+ * annotations. When a message is received, it performs a simple
+ * braodcast to send the message out to all connected sessions (including back
+ * to the sender). It further queues a Runnable with the ManagedExecutorService
+ * provided by Java EE7 Concurrency Utilities (that is injected using CDI). The
+ * runnable does a simple sleep, and then re-broadcasts the message.
+ * 
+ * <p>
+ * The value is the URI relative to your app’s context root,  e.g. the context
+ * root for this application is <code>websocket</code>, which makes the
+ * WebSocket URL used to reach this endpoint
+ * <code>ws://localhost/websocket/EchoAsyncEndpoint</code>.
+ * </p>
+ * <p>
+ * The methods below are annotated for lifecycle (onOpen, onClose, onError), or
+ * message (onMessage) events.
+ * </p>
+ * <p>
+ * By default, a new instance of server endpoint is instantiated for each client
+ * connection (section 3.1.7 of JSR 356 specification).
+ * </p>
+ */
 @ServerEndpoint(value = "/EchoAsyncEndpoint")
 public class EchoAsyncEndpoint {
 
@@ -56,7 +79,7 @@ public class EchoAsyncEndpoint {
 
 	@OnMessage
 	public void receiveMessage(final String message, final Session session) throws IOException {
-		// Called when a message is received. 
+		// Called when a message is received.
 		// Single endpoint per connection by default --> @OnMessage methods are single threaded!
 		// Endpoint/per-connection instances can see each other through sessions.
 
