@@ -15,6 +15,7 @@ This sample can be build using [Gradle](http://gradle.org/).
 
 ```bash
 $ gradle build publishToMavenLocal
+```
 
 In addition to publishing the war to the local maven repository, the built war file is copied into the apps directory of the server configuration located in the async-websocket-wlpcfg directory:
 
