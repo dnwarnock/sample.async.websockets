@@ -1,0 +1,43 @@
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'maven-publish'
+
+// Dependencies
+repositories { mavenCentral(); }
+
+dependencies {
+    compile group:'javax.websocket', name:'javax.websocket-api', version:'1.1'
+    compile group:'javax.enterprise.concurrent', name:'javax.enterprise.concurrent-api', version:'1.0'
+    compile group:'javax.json', name:'javax.json-api', version:'1.0'
+    compile group:'javax.enterprise', name:'cdi-api', version:'1.2'
+}
+
+// Set the Eclipse facets to use 3.1 of the Dynamic Web Module (there doesn't appear to be a specific web socket facet)
+eclipse {
+    wtp {
+        facet {
+            facet name: 'java', version: '1.7'
+            facet name: 'jst.web', version: '3.1'
+        }
+    }
+}
+
+// Copy WAR into the local usr dir
+task publishWar(dependsOn: 'jar', type: Copy) {
+    from(war)
+    into('../async-websocket-wlpcfg/servers/websocketSample/apps')
+}
+
+assemble.dependsOn('publishWar')
+
+publishing {
+    publications {
+        mavenWar(MavenPublication) {
+            version '1.0-SNAPSHOT'
+            groupId 'net.wasdev.wlp.sample'
+            artifactId 'async-websocket'
+            
+            from components.web
+        }
+    }
+}

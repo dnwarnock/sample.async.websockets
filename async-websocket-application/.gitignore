@@ -4,3 +4,5 @@
 /.settings
 /.apt_generated/
 /target
+/build/
+/bin/
