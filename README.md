@@ -3,9 +3,9 @@
 Java EE7 added support for WebSockets. This sample contains a few variations to illustrate how to use WebSockets in EE7 applications.
 
 * [Building with Gradle](/docs/Building-the-sample.md#building-with-gradle)
-* [Building with maven](/docs//Building-the-sample#building-with-maven)
-* [Downloading WAS Liberty](/docs//Downloading-WAS-Liberty)
-* [Start the server using the command line, or maven/gradle plugins](/docs/Starting-the-server)
+* [Building with maven](/docs/Building-the-sample.md#building-with-maven)
+* [Downloading WAS Liberty](/docs/Downloading-WAS-Liberty.md)
+* [Start the server using the command line, or maven/gradle plugins](/docs/Starting-the-server.md)
 * [Using Eclipse and WebSphere Development Tools (WDT)](#eclipse--wdt)
 
 Once the server has been started, go to [http://localhost:9082/websocket/](http://localhost:9082/websocket/) to view the sample.
