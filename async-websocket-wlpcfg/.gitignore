@@ -7,3 +7,4 @@
 /servers/*/workarea
 /servers/.pid
 /build/
+/servers/.classCache
