@@ -4,7 +4,7 @@ Java EE7 added support for WebSockets.
 
 The [WebSockets standard](#more-on-websockets) defines a full-duplex communication protocol to simplify and streamline long-running communications between a client and a server. The protocol has a well-defined wire format that allows for text or binary messages to be interleaved at will: either side of the connection can send messages at any time, in any order (which is a significant difference from the requirements of Comet or other long-polling mechanisms which require management of several connections to emulate bidirectional communication). The wire format is compact and efficient, making it ideal for small messages.
 
-A WebSocket is established by upgrading an existing HTTP connection via an Upgrade handshake. The connection continues to use the original HTTP connection after upgrade, which allows it to work with firewalls and other infrastructure optimized for HTTP traffic; however, HTTP [proxy servers may need to be upgraded to understand the WebSocket protocol](https://en.wikipedia.org/wiki/WebSocket#Proxy_traversal), especially those that do SSL termination.
+A WebSocket connection is established by upgrading an existing HTTP connection via an Upgrade handshake. The connection continues to use the original HTTP connection after upgrade, which allows it to work with firewalls and other infrastructure optimized for HTTP traffic; however, HTTP [proxy servers may need to be upgraded to understand the WebSocket protocol](https://en.wikipedia.org/wiki/WebSocket#Proxy_traversal), especially those that do SSL termination.
 
 This sample contains a few variations to illustrate how to use WebSockets in EE7 applications. Once the server has been started, go to [http://localhost:9082/websocket/](http://localhost:9082/websocket/) to interact with the sample. Cross-reference the source to understand what the client side (Java or JavaScript) and server side (Java) are doing.
 
@@ -17,8 +17,9 @@ This sample contains a few variations to illustrate how to use WebSockets in EE7
 ## More on WebSockets
 * [Wikipedia summary](https://en.wikipedia.org/wiki/WebSocket)
 * [WebSockets: Proxy Traversal](https://en.wikipedia.org/wiki/WebSocket#Proxy_traversal)
-* [w3 JavaScript WebSockets API](http://www.w3.org/TR/websockets/)
+* [w3 JavaScript WebSockets API](http://www.w3.org/TR/websockets/#contents)
 * [WebSocket protocol: RFC 6455](http://tools.ietf.org/html/rfc6455)
+* [JSR 356: Java API for WebSocket](https://jcp.org/en/jsr/detail?id=356)
 
 ## Notice
 
