@@ -46,40 +46,40 @@ import javax.websocket.WebSocketContainer;
  */
 @ClientEndpoint
 public class AnnotatedClientEndpoint {
-	
+
 	public static final String NEW_CLIENT = "client:";
 	static AtomicInteger clientId = new AtomicInteger(0);
 
 	// try to stick to one client connection for this sample.
 	private static AtomicReference<Session> clientConnection = new AtomicReference<>(null);
-	
-    public static ClientEndpointConfig getDefaultConfig() {
-        Builder b = ClientEndpointConfig.Builder.create();
-        return b.build();
-    }
-    
-    public static void connect(String clientString) throws IOException {
-    	if (clientString.startsWith(NEW_CLIENT) ) {
-    		clientString = clientString.substring(NEW_CLIENT.length());
 
-        	WebSocketContainer c = ContainerProvider.getWebSocketContainer();
-    		Hello.log(AnnotatedClientEndpoint.class, "Starting the client for " + clientString);
+	public static ClientEndpointConfig getDefaultConfig() {
+		Builder b = ClientEndpointConfig.Builder.create();
+		return b.build();
+	}
 
-    		URI uriServerEP = URI.create(clientString);
-    		try {
-    			Session s = c.connectToServer(AnnotatedClientEndpoint.class, uriServerEP);
+	public static void connect(String clientString) throws IOException {
+		if (clientString.startsWith(NEW_CLIENT) ) {
+			clientString = clientString.substring(NEW_CLIENT.length());
 
-    			// we're just going to maintain one client at a time, so reading the output
-    			// can be somewhat sane.. Set the new session, and close the old one.
-    			s = clientConnection.getAndSet(s);
-    			if ( s != null )
-    				s.close();
-    		} catch (DeploymentException e) {
-    			e.printStackTrace();
-    		}
-    	}
-    }
-    
+			WebSocketContainer c = ContainerProvider.getWebSocketContainer();
+			Hello.log(AnnotatedClientEndpoint.class, "Starting the client for " + clientString);
+
+			URI uriServerEP = URI.create(clientString);
+			try {
+				Session s = c.connectToServer(AnnotatedClientEndpoint.class, uriServerEP);
+
+				// we're just going to maintain one client at a time, so reading the output
+				// can be somewhat sane.. Set the new session, and close the old one.
+				s = clientConnection.getAndSet(s);
+				if ( s != null )
+					s.close();
+			} catch (DeploymentException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	int id = clientId.incrementAndGet();
 
 
@@ -87,8 +87,8 @@ public class AnnotatedClientEndpoint {
 	public void onOpen(Session session, EndpointConfig ec) {
 		// (lifecycle) Called when the connection is opened
 		Hello.log(this, "Client "+ id +" open!");
-		
-        try {
+
+		try {
 			session.getBasicRemote().sendText("Client "+ id +" started");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -99,7 +99,7 @@ public class AnnotatedClientEndpoint {
 	public void onClose(Session session, CloseReason reason) {
 		// (lifecycle) Called when the connection is closed
 		Hello.log(this, "Client "+ id +" closed!");
-		
+
 		// remove this session if it was the client session we were keeping around
 		clientConnection.compareAndSet(session, null);
 	}

@@ -56,8 +56,8 @@ import javax.websocket.server.ServerEndpoint;
 public class EchoAsyncEndpoint {
 
 	static AtomicInteger endpointId = new AtomicInteger(0);
-	static String format = "Endpoint %d, message %d: %s";
-	static String delay = "Endpoint %d, delayed message %d: %s";
+	static String format = "[ep=%d, msg=%d]: %s";
+	static String delay = "[ep=%d, msg=%d]: %s (delayed)";
 	
 	/** CDI injection of Java EE7 Managed executor service */
 	@Resource
@@ -72,6 +72,7 @@ public class EchoAsyncEndpoint {
 	public void onOpen(Session session, EndpointConfig ec) {
 		// (lifecycle) Called when the connection is opened
 		Hello.log(this, "Endpoint " + endptId + " is open!");
+		session.getUserProperties().put("endptId", endptId);
 	}
 
 	@OnClose
@@ -123,7 +124,7 @@ public class EchoAsyncEndpoint {
 
 				if ( s.isOpen()) { // double check: ensure session is still open
 					// log and send
-					Hello.log(this, "Sending to " + m);
+					Hello.log(this, "Sending to Endpoint " + s.getUserProperties().get("endptId") + ": " + m);
 					s.getBasicRemote().sendText(m);
 				}
 			} catch (IOException e) {
