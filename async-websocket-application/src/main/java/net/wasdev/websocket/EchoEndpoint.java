@@ -16,6 +16,7 @@
 package net.wasdev.websocket;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.websocket.CloseReason;
 import javax.websocket.EndpointConfig;
@@ -50,18 +51,23 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/EchoEndpoint")
 public class EchoEndpoint {
 
+	static AtomicInteger endpointId = new AtomicInteger(0);
+	static String format = "[ep=%d, msg=%d]: %s";
+
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig ec) {
 		// (lifecycle) Called when the connection is opened
-		Hello.log(this, "I'm open!");
+		Hello.log(this, "Endpoint " + endptId + " is open!");
+		session.getUserProperties().put("endptId", endptId);
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
-		Hello.log(this, "I'm closed!");
+		Hello.log(this, "Endpoint " + endptId + " is closed!");
 	}
 
 	int count = 0;
+	int endptId = endpointId.incrementAndGet();
 
 	@OnMessage
 	public void receiveMessage(String message, Session session)
@@ -71,15 +77,25 @@ public class EchoEndpoint {
 		// Endpoint/per-connection instances can see each other through sessions.
 
 		if ("stop".equals(message)) {
+			Hello.log(this, "Endpoint " + endptId + " was asked to stop");
 			session.close();
+		} else if (message.startsWith(AnnotatedClientEndpoint.NEW_CLIENT)) {
+			AnnotatedClientEndpoint.connect(message);
 		} else {
-			Hello.log(this, "I got a message: " + message);
+			int id = count++;
 
 			// Look, Ma! Broadcast!
 			// Easy as pie to send the same data around to different sessions.
-			int id = count++;
 			for (Session s : session.getOpenSessions()) {
-				s.getBasicRemote().sendText("Echo " + id + ":  " + message);
+				// Do some munging of the message... 
+				String m = message;
+				if ( s != session ) {
+					m = message + " (forwarded)";
+				}
+				m = String.format(format, endptId, id, m);
+
+				Hello.log(this, "Sending to Endpoint " + s.getUserProperties().get("endptId") + ": " + m);
+				s.getBasicRemote().sendText(m);
 			}
 		}
 	}

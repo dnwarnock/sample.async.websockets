@@ -16,6 +16,7 @@
 package net.wasdev.websocket;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedExecutorService;
@@ -54,6 +55,10 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/EchoAsyncEndpoint")
 public class EchoAsyncEndpoint {
 
+	static AtomicInteger endpointId = new AtomicInteger(0);
+	static String format = "Endpoint %d, message %d: %s";
+	static String delay = "Endpoint %d, delayed message %d: %s";
+	
 	/** CDI injection of Java EE7 Managed executor service */
 	@Resource
 	ManagedExecutorService executor;
@@ -66,16 +71,17 @@ public class EchoAsyncEndpoint {
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig ec) {
 		// (lifecycle) Called when the connection is opened
-		Hello.log(this, "I'm open!");
+		Hello.log(this, "Endpoint " + endptId + " is open!");
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
 		// (lifecycle) Called when the connection is closed
-		Hello.log(this, "I'm closed!");
+		Hello.log(this, "Endpoint " + endptId + " is closed!");
 	}
 
 	int count = 0;
+	int endptId = endpointId.incrementAndGet();
 
 	@OnMessage
 	public void receiveMessage(final String message, final Session session) throws IOException {
@@ -84,12 +90,13 @@ public class EchoAsyncEndpoint {
 		// Endpoint/per-connection instances can see each other through sessions.
 
 		if ("stop".equals(message)) {
-			Hello.log(this, "I was asked to stop, " + this);
+			Hello.log(this, "Endpoint " + endptId + " was asked to stop");
 			session.close();
+		} else if (message.startsWith(AnnotatedClientEndpoint.NEW_CLIENT)) {
+			AnnotatedClientEndpoint.connect(message);
 		} else {
-			Hello.log(this, "I got a message: " + message);
 			final int id = count++;
-			broadcast(session, "Echo " + id + ": " + message);
+			broadcast(session, format, id, message);
 
 			executor.submit(new Runnable() {
 				@Override
@@ -98,17 +105,27 @@ public class EchoAsyncEndpoint {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
 					}
-					broadcast(session, "Delayed " + id + ": " + message);
-					Hello.log(this, "executor -- send " + message);
+					broadcast(session, delay, id, message);
 				}
 			});
 		}
 	}
 
-	private void broadcast(Session session, String message) {
+	private void broadcast(Session session, String format, int id, String message) {
 		for (Session s : session.getOpenSessions()) {
 			try {
-				s.getBasicRemote().sendText(message);
+				// Do some munging of the message... 
+				String m = message;
+				if ( s != session ) {
+					m = message + " (forwarded)";
+				}
+				m = String.format(format, endptId, id, m);
+
+				if ( s.isOpen()) { // double check: ensure session is still open
+					// log and send
+					Hello.log(this, "Sending to " + m);
+					s.getBasicRemote().sendText(m);
+				}
 			} catch (IOException e) {
 				try {
 					s.close();
@@ -122,5 +139,6 @@ public class EchoAsyncEndpoint {
 	public void onError(Throwable t) {
 		// (lifecycle) Called if/when an error occurs and the connection is disrupted
 		Hello.log(this, "oops: " + t);
+		t.printStackTrace();
 	}
 }

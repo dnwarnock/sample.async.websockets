@@ -1,10 +1,10 @@
 package net.wasdev.websocket;
 
 public class Hello {
-	static final String format = "%-60s - %s";
+	static final String format = "%-30s - %s";
 	
 	public static void log(Object source, String message) {
-		System.out.println(String.format(format, source == null ? "null" : source.toString(), message));
+		System.out.println(String.format(format, source == null ? "null" : source.getClass().getSimpleName(), message));
 	}
 }
 
