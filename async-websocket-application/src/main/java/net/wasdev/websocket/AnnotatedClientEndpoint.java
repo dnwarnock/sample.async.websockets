@@ -80,6 +80,7 @@ public class AnnotatedClientEndpoint {
 		}
 	}
 
+	/** Instance id -- used to identify the client in the logs */
 	int id = clientId.incrementAndGet();
 
 

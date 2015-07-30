@@ -81,7 +81,10 @@ public class EchoAsyncEndpoint {
 		Hello.log(this, "Endpoint " + endptId + " is closed!");
 	}
 
+	/** message id: incremented as messages are received by this endpoint */
 	int count = 0;
+
+	/** Instance id -- used to identify this endpoint in the logs */
 	int endptId = endpointId.incrementAndGet();
 
 	@OnMessage
