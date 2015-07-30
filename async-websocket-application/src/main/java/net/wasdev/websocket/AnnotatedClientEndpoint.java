@@ -41,7 +41,7 @@ import javax.websocket.WebSocketContainer;
  * 
  * Creating a {@link ClientEndpoint} can feel a little strange. You add the 
  * annotation, but still need to actually create the endpoint, as shown in 
- * {@link #connect(URI)}.
+ * {@link #connect(String)}.
  *
  */
 @ClientEndpoint
