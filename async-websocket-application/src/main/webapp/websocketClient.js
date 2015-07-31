@@ -36,6 +36,9 @@ function send() {
 	
 	if ( txt.indexOf('clear') >= 0) {
 		document.getElementById('messages').innerHTML='';
+	} else if ( txt === 'client' ) {
+		// client alone will initiate a programmatic client in the server
+		sendSocket('client:'+websocket_url);
 	} else if ( use_encoder ) {
 		json = {'content' : txt };
 		sendSocket(JSON.stringify(json));

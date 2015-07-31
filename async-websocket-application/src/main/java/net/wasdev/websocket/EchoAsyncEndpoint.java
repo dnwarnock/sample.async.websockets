@@ -16,6 +16,7 @@
 package net.wasdev.websocket;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedExecutorService;
@@ -52,30 +53,36 @@ import javax.websocket.server.ServerEndpoint;
  * </p>
  */
 @ServerEndpoint(value = "/EchoAsyncEndpoint")
-public class EchoAsyncEndpoint {
-
+public class EchoAsyncEndpoint extends EchoCommon {
+	
 	/** CDI injection of Java EE7 Managed executor service */
 	@Resource
 	ManagedExecutorService executor;
 
+	/** message id: incremented as messages are received by this endpoint */
+	int count = 0;
+
 	/**
-	 * Annotated @OnOpen method
-	 * @param session
-	 * @param ec
+	 * @param session Session for established WebSocket
+	 * @param ec endpoint configuration
+	 * 
+	 * @see EchoCommon#endptId
 	 */
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig ec) {
-		// (lifecycle) Called when the connection is opened
-		Hello.log(this, "I'm open!");
+		// (lifecycle) Called when the connection is opened.
+		Hello.log(this, "Endpoint " + endptId + " is open!");
+		
+		// Store the endpoint id in the session so that when we log and push 
+		// messages around, we have something more user-friendly to look at.
+		session.getUserProperties().put("endptId", endptId);
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
 		// (lifecycle) Called when the connection is closed
-		Hello.log(this, "I'm closed!");
+		Hello.log(this, "Endpoint " + endptId + " is closed!");
 	}
-
-	int count = 0;
 
 	@OnMessage
 	public void receiveMessage(final String message, final Session session) throws IOException {
@@ -84,12 +91,13 @@ public class EchoAsyncEndpoint {
 		// Endpoint/per-connection instances can see each other through sessions.
 
 		if ("stop".equals(message)) {
-			Hello.log(this, "I was asked to stop, " + this);
+			Hello.log(this, "Endpoint " + endptId + " was asked to stop");
 			session.close();
+		} else if (message.startsWith(AnnotatedClientEndpoint.NEW_CLIENT)) {
+			AnnotatedClientEndpoint.connect(message);
 		} else {
-			Hello.log(this, "I got a message: " + message);
 			final int id = count++;
-			broadcast(session, "Echo " + id + ": " + message);
+			broadcast(session, id, message); // in EchoCommon
 
 			executor.submit(new Runnable() {
 				@Override
@@ -98,23 +106,9 @@ public class EchoAsyncEndpoint {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
 					}
-					broadcast(session, "Delayed " + id + ": " + message);
-					Hello.log(this, "executor -- send " + message);
+					broadcast(session, id, message + " (delayed)"); // in EchoCommon
 				}
 			});
-		}
-	}
-
-	private void broadcast(Session session, String message) {
-		for (Session s : session.getOpenSessions()) {
-			try {
-				s.getBasicRemote().sendText(message);
-			} catch (IOException e) {
-				try {
-					s.close();
-				} catch (IOException e1) {
-				}
-			}
 		}
 	}
 
@@ -122,5 +116,6 @@ public class EchoAsyncEndpoint {
 	public void onError(Throwable t) {
 		// (lifecycle) Called if/when an error occurs and the connection is disrupted
 		Hello.log(this, "oops: " + t);
+		t.printStackTrace();
 	}
 }

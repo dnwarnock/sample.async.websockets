@@ -15,7 +15,7 @@ async-websocket-wlpcfg
 
 ## Building with Gradle
 
-This sample can be build using [Gradle](http://gradle.org/).
+This sample can be built using [Gradle](http://gradle.org/).
 
 ```bash
 $ gradle build publishToMavenLocal
@@ -23,7 +23,7 @@ $ gradle build publishToMavenLocal
 
 ## Building with maven
 
-This sample can be build using [Apache Maven](http://maven.apache.org/).
+This sample can be built using [Apache Maven](http://maven.apache.org/).
 
 ```bash
 $ mvn install

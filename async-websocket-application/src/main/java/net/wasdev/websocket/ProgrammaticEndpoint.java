@@ -28,7 +28,7 @@ import javax.websocket.server.ServerApplicationConfig;
 import javax.websocket.server.ServerEndpointConfig;
 
 /**
- * Example of a WebSocket server endpoint programatically. It needs to be
+ * Example of a programmatic WebSocket server endpoint. It needs to be
  * configured using {@link ServerApplicationConfig}.See
  * {@link ExtendedEndpointApplicationConfig}.
  * <p>

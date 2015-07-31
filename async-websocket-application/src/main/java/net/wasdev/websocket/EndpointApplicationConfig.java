@@ -45,14 +45,19 @@ public class EndpointApplicationConfig implements ServerApplicationConfig {
 
 	/**
 	 * Create configurations for programmatic endpoints that should be
-	 * deployed using a . The string value is the URI relative to your app’s
-	 * context root, similar to the value provided in the @ServerEndpoint
-	 * annotation, e.g. the context root for this example application
-	 * is <code>websocket</code>, which makes the WebSocket URL used to
-	 * reach this endpoint
-	 * <code>ws://localhost/websocket/ExtendedEndpoint</code>.
+	 * deployed. 
+	 * <p>
+	 * The string value passed to the {@link ServerEndpointConfig.Builder} 
+	 * is the URI relative to your app’s context root, similar to the 
+	 * value provided in the @ServerEndpoint annotation, e.g. the context 
+	 * root for this example application is <code>websocket</code>, and the string
+	 * provided to build the {@link ServerEndpointConfig} is <code>/ProgrammaticEndpoint</code>, 
+	 * which makes the WebSocket URL used to reach the endpoint
+	 * <code>ws://localhost/websocket/ProgrammaticEndpoint</code>.
+	 * </p><p>
 	 * The ServerEndpointConfig can also be used to configure additional
 	 * protocols, and extensions.
+	 * </p>
 	 *
 	 * @param endpointClasses
 	 *            the set of all the Endpoint classes in the archive containing
