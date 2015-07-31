@@ -48,6 +48,7 @@ import javax.websocket.WebSocketContainer;
 public class AnnotatedClientEndpoint {
 
 	public static final String NEW_CLIENT = "client:";
+	static final String CLIENT_ECHO = "(Client-%d,msg=%d) %s";
 	static AtomicInteger clientId = new AtomicInteger(0);
 
 	// try to stick to one client connection for this sample.
@@ -82,7 +83,9 @@ public class AnnotatedClientEndpoint {
 
 	/** Instance id -- used to identify the client in the logs */
 	int id = clientId.incrementAndGet();
-
+	
+	/** message id: incremented as messages are forwarded by this endpoint (i.e. client outbound messages) */
+	int count = 0;
 
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig ec) {
@@ -115,10 +118,16 @@ public class AnnotatedClientEndpoint {
 			Hello.log(this, "Client "+ id +" stopped, " + this);
 			session.close();
 		} else if (message.contains("client ") && message.contains("forwarded")) {
-			Hello.log(this, "Client "+ id +" received: " + message);
-			message = message.replace(" (forwarded)", ""); // strip the forwarded bit off.
-			int pos = message.indexOf("client "); // strip the client bit off
-			session.getBasicRemote().sendText("Client "+ id +" echo: " + message.substring(pos + 7));
+			String newMessage = message.replace("(forwarded)", ""); // strip the forwarded bit off.
+			newMessage = newMessage.replace("(delayed)", ""); // strip the delayed bit off.
+			int pos = newMessage.indexOf("client "); // strip the client bit off
+			newMessage = newMessage.substring(pos + 7).trim();
+			
+			// Finalize the message with the client and message id
+			newMessage = String.format(CLIENT_ECHO, id, count++, newMessage);
+			
+			Hello.log(this, "Client "+ id +" received '" + message + "' and will forward as '" + newMessage + "'");
+			session.getBasicRemote().sendText(newMessage);
 		} else {
 			Hello.log(this, "Client "+ id +" received: " + message);
 		}

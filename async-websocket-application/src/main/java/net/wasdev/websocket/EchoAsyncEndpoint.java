@@ -53,25 +53,28 @@ import javax.websocket.server.ServerEndpoint;
  * </p>
  */
 @ServerEndpoint(value = "/EchoAsyncEndpoint")
-public class EchoAsyncEndpoint {
-
-	static AtomicInteger endpointId = new AtomicInteger(0);
-	static String format = "[ep=%d, msg=%d]: %s";
-	static String delay = "[ep=%d, msg=%d]: %s (delayed)";
+public class EchoAsyncEndpoint extends EchoCommon {
 	
 	/** CDI injection of Java EE7 Managed executor service */
 	@Resource
 	ManagedExecutorService executor;
 
+	/** message id: incremented as messages are received by this endpoint */
+	int count = 0;
+
 	/**
-	 * Annotated @OnOpen method
-	 * @param session
-	 * @param ec
+	 * @param session Session for established WebSocket
+	 * @param ec endpoint configuration
+	 * 
+	 * @see EchoCommon#endptId
 	 */
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig ec) {
-		// (lifecycle) Called when the connection is opened
+		// (lifecycle) Called when the connection is opened.
 		Hello.log(this, "Endpoint " + endptId + " is open!");
+		
+		// Store the endpoint id in the session so that when we log and push 
+		// messages around, we have something more user-friendly to look at.
 		session.getUserProperties().put("endptId", endptId);
 	}
 
@@ -80,12 +83,6 @@ public class EchoAsyncEndpoint {
 		// (lifecycle) Called when the connection is closed
 		Hello.log(this, "Endpoint " + endptId + " is closed!");
 	}
-
-	/** message id: incremented as messages are received by this endpoint */
-	int count = 0;
-
-	/** Instance id -- used to identify this endpoint in the logs */
-	int endptId = endpointId.incrementAndGet();
 
 	@OnMessage
 	public void receiveMessage(final String message, final Session session) throws IOException {
@@ -100,7 +97,7 @@ public class EchoAsyncEndpoint {
 			AnnotatedClientEndpoint.connect(message);
 		} else {
 			final int id = count++;
-			broadcast(session, format, id, message);
+			broadcast(session, id, message); // in EchoCommon
 
 			executor.submit(new Runnable() {
 				@Override
@@ -109,33 +106,9 @@ public class EchoAsyncEndpoint {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
 					}
-					broadcast(session, delay, id, message);
+					broadcast(session, id, message + " (delayed)"); // in EchoCommon
 				}
 			});
-		}
-	}
-
-	private void broadcast(Session session, String format, int id, String message) {
-		for (Session s : session.getOpenSessions()) {
-			try {
-				// Do some munging of the message... 
-				String m = message;
-				if ( s != session ) {
-					m = message + " (forwarded)";
-				}
-				m = String.format(format, endptId, id, m);
-
-				if ( s.isOpen()) { // double check: ensure session is still open
-					// log and send
-					Hello.log(this, "Sending to Endpoint " + s.getUserProperties().get("endptId") + ": " + m);
-					s.getBasicRemote().sendText(m);
-				}
-			} catch (IOException e) {
-				try {
-					s.close();
-				} catch (IOException e1) {
-				}
-			}
 		}
 	}
 

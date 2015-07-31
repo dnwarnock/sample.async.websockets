@@ -47,17 +47,28 @@ import javax.websocket.server.ServerEndpoint;
  * By default, a new instance of server endpoint is instantiated for each client
  * connection (section 3.1.7 of JSR 356 specification).
  * </p>
+ * 
+ * @see EchoCommon
  */
 @ServerEndpoint(value = "/EchoEndpoint")
-public class EchoEndpoint {
+public class EchoEndpoint extends EchoCommon {
 
-	static AtomicInteger endpointId = new AtomicInteger(0);
-	static String format = "[ep=%d, msg=%d]: %s";
+	/** message id: incremented as messages are received by this endpoint */
+	int count = 0;
 
+	/**
+	 * @param session Session for established WebSocket
+	 * @param ec endpoint configuration
+	 * 
+	 * @see EchoCommon#endptId
+	 */
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig ec) {
-		// (lifecycle) Called when the connection is opened
+		// (lifecycle) Called when the connection is opened.
 		Hello.log(this, "Endpoint " + endptId + " is open!");
+		
+		// Store the endpoint id in the session so that when we log and push 
+		// messages around, we have something more user-friendly to look at.
 		session.getUserProperties().put("endptId", endptId);
 	}
 
@@ -65,12 +76,6 @@ public class EchoEndpoint {
 	public void onClose(Session session, CloseReason reason) {
 		Hello.log(this, "Endpoint " + endptId + " is closed!");
 	}
-
-	/** message id: incremented as messages are received by this endpoint */
-	int count = 0;
-
-	/** Instance id -- used to identify this endpoint in the logs */
-	int endptId = endpointId.incrementAndGet();
 
 	@OnMessage
 	public void receiveMessage(String message, Session session)
@@ -85,21 +90,8 @@ public class EchoEndpoint {
 		} else if (message.startsWith(AnnotatedClientEndpoint.NEW_CLIENT)) {
 			AnnotatedClientEndpoint.connect(message);
 		} else {
-			int id = count++;
-
-			// Look, Ma! Broadcast!
-			// Easy as pie to send the same data around to different sessions.
-			for (Session s : session.getOpenSessions()) {
-				// Do some munging of the message... 
-				String m = message;
-				if ( s != session ) {
-					m = message + " (forwarded)";
-				}
-				m = String.format(format, endptId, id, m);
-
-				Hello.log(this, "Sending to Endpoint " + s.getUserProperties().get("endptId") + ": " + m);
-				s.getBasicRemote().sendText(m);
-			}
+			final int id = count++;
+			broadcast(session, id, message); // in EchoCommon
 		}
 	}
 
