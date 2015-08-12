@@ -6,13 +6,15 @@ The [WebSockets standard](#more-on-websockets) defines a full-duplex communicati
 
 A WebSocket connection is established by upgrading an existing HTTP connection via an Upgrade handshake. The connection continues to use the original HTTP connection after upgrade, which allows it to work with firewalls and other infrastructure optimized for HTTP traffic; however, HTTP [proxy servers may need to be upgraded to understand the WebSocket protocol](https://en.wikipedia.org/wiki/WebSocket#Proxy_traversal), especially those that do SSL termination.
 
-This sample contains a few variations to illustrate how to use WebSockets in EE7 applications. Once the server has been started, go to [http://localhost:9082/websocket/](http://localhost:9082/websocket/) to interact with the sample. Cross-reference the source to understand what the client side (Java or JavaScript) and server side (Java) are doing.
+This sample contains a few variations to illustrate how to use WebSockets in EE7 applications. Browse the code to see what it does, or build and run it yourself:
 
 * [Building with Gradle](/docs/Building-the-sample.md#building-with-gradle)
 * [Building with maven](/docs/Building-the-sample.md#building-with-maven)
 * [Downloading WAS Liberty](/docs/Downloading-WAS-Liberty.md)
 * [Start the server using the command line, or maven/gradle plugins](/docs/Starting-the-server.md)
 * [Using Eclipse and WebSphere Development Tools (WDT)](/docs/Using-WDT.md)
+
+Once the server has been started, go to [http://localhost:9082/websocket/](http://localhost:9082/websocket/) to interact with the sample. Cross-reference the source to understand what the client side (Java or JavaScript) and server side (Java) are doing.
 
 ## More on WebSockets
 * [Wikipedia summary](https://en.wikipedia.org/wiki/WebSocket)
