@@ -85,8 +85,7 @@ For the purposes of this sample, we will create the Liberty server (step 3 in th
 3.  Select the appropriate server (as created above) and select *Finish*
 4.  Confirm web browser opens on "http://localhost:9082/websocket/" with 5 hyperlinks to run samples
 
-* Note: Some versions of WDT incorrectly map the cdi-1.2 dependency to the CDI 1.0 Facet, which prevents the *Run As ...* operation in step 2 from succeeding. If this happens, Right-click on the `async-websocket-application` project, and select *Properties*, then select *Project Facets* in the left-hand pane. Change the the "Context and dependency injection (CDI)" facet to use version 1.2, at which point, step 2 (above) should work.
-
+:star: *Note:* Some versions of WDT incorrectly map the cdi-1.2 dependency to the CDI 1.0 Facet, which prevents the *Run As ...* operation in step 2 from succeeding. If this happens, Right-click on the `async-jaxrs-application` project, and select *Properties*, then select *Project Facets* in the left-hand pane. Change the the "Context and dependency injection (CDI)" facet to use version 1.2, at which point, step 2 (above) should work. 
 
 ## Tips
 
