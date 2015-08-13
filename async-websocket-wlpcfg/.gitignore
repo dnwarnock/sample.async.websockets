@@ -5,7 +5,6 @@
 /servers/*/apps
 /servers/*/logs
 /servers/*/workarea
-/servers/*/tranlog
 /servers/.pid
 /build/
 /servers/.classCache

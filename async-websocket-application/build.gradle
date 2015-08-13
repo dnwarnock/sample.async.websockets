@@ -32,9 +32,7 @@ dependencies {
     providedCompile group:'javax.enterprise.concurrent', name:'javax.enterprise.concurrent-api', version:'1.0'
     providedCompile group:'javax.json', name:'javax.json-api', version:'1.0'
     providedCompile group:'javax.enterprise', name:'cdi-api', version:'1.2'
-    providedCompile group:'javax.ejb', name:'javax.ejb-api', version:'3.2'
     testCompile 'junit:junit:4.12'
-    testCompile 'javax.ws.rs:javax.ws.rs-api:2.0'
     fvtCompile configurations.testCompile
     fvtRuntime configurations.testRuntime
     fvtRuntime 'org.eclipse.jetty.websocket:javax-websocket-client-impl:9.3.2.v20150730'
