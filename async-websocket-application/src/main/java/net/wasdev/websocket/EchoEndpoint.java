@@ -34,7 +34,7 @@ import javax.websocket.server.ServerEndpoint;
  * to the sender).
  * 
  * <p>
- * The value is the URI relative to your app’s context root,  e.g. the context
+ * The value is the URI relative to your app’s context root, e.g. the context
  * root for this application is <code>websocket</code>, which makes the
  * WebSocket URL used to reach this endpoint
  * <code>ws://localhost/websocket/EchoEndpoint</code>.
