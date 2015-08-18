@@ -34,7 +34,7 @@ import javax.websocket.server.ServerEndpoint;
  * to the sender), using the {@link EchoEncoder} to serialize the outbound payload.
  * 
  * <p>
- * The value is the URI relative to your app’s context root,  e.g. the context
+ * The value is the URI relative to your app’s context root,e.g. the context
  * root for this application is <code>websocket</code>, which makes the
  * WebSocket URL used to reach this endpoint
  * <code>ws://localhost/websocket/EchoEncoderEndpoint</code>.
@@ -49,17 +49,27 @@ import javax.websocket.server.ServerEndpoint;
  * </p>
  */
 @ServerEndpoint(value = "/EchoEncoderEndpoint", decoders = EchoDecoder.class, encoders = EchoEncoder.class)
-public class EchoEncoderEndpoint {
+public class EchoEncoderEndpoint extends EchoCommon {
 
+	/**
+	 * @param session Session for established WebSocket
+	 * @param ec endpoint configuration
+	 * 
+	 * @see EchoCommon#endptId
+	 */
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig ec) {
-		// (lifecycle) Called when the connection is opened
-		Hello.log(this, "I'm open!");
+		// (lifecycle) Called when the connection is opened.
+		Hello.log(this, "Endpoint " + endptId + " is open!");
+
+		// Store the endpoint id in the session so that when we log and push 
+		// messages around, we have something more user-friendly to look at.
+		session.getUserProperties().put("endptId", endptId);
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
-		Hello.log(this, "I'm closed!");
+		Hello.log(this, "Endpoint " + endptId + " is closed!");
 	}
 
 	/**
