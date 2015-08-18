@@ -6,7 +6,16 @@ The [WebSockets standard](#more-on-websockets) defines a full-duplex communicati
 
 A WebSocket connection is established by upgrading an existing HTTP connection via an Upgrade handshake. The connection continues to use the original HTTP connection after upgrade, which allows it to work with firewalls and other infrastructure optimized for HTTP traffic; however, HTTP [proxy servers may need to be upgraded to understand the WebSocket protocol](https://en.wikipedia.org/wiki/WebSocket#Proxy_traversal), especially those that do SSL termination.
 
-This sample contains a few variations to illustrate how to use WebSockets in EE7 applications. Browse the code to see what it does, or build and run it yourself:
+This sample contains a few variations to illustrate how to use WebSockets in EE7 applications. 
+* *Simple Annotated WebSocket*: [SimpleEndpoint](/async-websocket-application//src/main/java/net/wasdev/websocket/SimpleEndpoint.java) provides a simple example of an annotated endpoint
+* *Simple Programmatic WebSocket*: [ProgrammaticEndpoint](/async-websocket-application//src/main/java/net/wasdev/websocket/ProgrammaticEndpoint.java) defines an endpoint that is configured via the [EndpointApplicationConfig](/async-websocket-application//src/main/java/net/wasdev/websocket/EndpointApplicationConfig.java)
+* *Echo sample*: [EchoEndpoint](/async-websocket-application//src/main/java/net/wasdev/websocket/EchoEndpoint.java) also uses annotations, but provides an example of simple message broadcasting via WebSockets.
+* *Echo async sample*: [EchoAsyncEndpoint](/async-websocket-application//src/main/java/net/wasdev/websocket/EchoAsyncEndpoint.java) adds an asynchronous element to the simple broadcast example, using a CDI-injected executor to provide a delayed rebroadcast.
+* *Echo sample with Encoder/Decoder*: [EchoEncoderEndpoint](/async-websocket-application//src/main/java/net/wasdev/websocket/EchoAsyncEndpoint.java) extends the basic broadcast example with a simple [Decoder](/async-websocket-application/src/main/java/net/wasdev/websocket/EchoDecoder.java) and [Encoder](/async-websocket-application/src/main/java/net/wasdev/websocket/EchoEncoder.java).
+
+This sample also includes a WebSocket client, [AnnotatedClientEndpoint](/async-websocket-application//src/main/java/net/wasdev/websocket/AnnotatedClientEndpoint.java), which can be brought into the conversation with either the *Echo sample* or the *Echo async sample* by providing `client` as input.
+
+Browse the code to see what it does, or build and run it yourself:
 
 * [Building with Gradle](/docs/Building-the-sample.md#building-with-gradle)
 * [Building with maven](/docs/Building-the-sample.md#building-with-maven)
