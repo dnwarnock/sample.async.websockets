@@ -51,20 +51,20 @@
                 <version>1.2</version>
             </dependency>
             <dependency>
-            	<groupId>junit</groupId>
-            	<artifactId>junit</artifactId>
-            	<version>4.12</version>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
             </dependency>
             <dependency>
-		       	<groupId>org.eclipse.jetty.websocket</groupId>
-		       	<artifactId>javax-websocket-client-impl</artifactId>
-		       	<version>9.2.13.v20150730</version>
-        	</dependency>
-        	<dependency>
-		       	<groupId>org.glassfish</groupId>
-		       	<artifactId>javax.json</artifactId>
-		       	<version>1.0.4</version>
-        	</dependency>
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>javax-websocket-client-impl</artifactId>
+                <version>9.2.13.v20150730</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.json</artifactId>
+                <version>1.0.4</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -90,29 +90,29 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-       	    <groupId>junit</groupId>
-           	<artifactId>junit</artifactId>
-           	<scope>test</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
-	       	<groupId>org.eclipse.jetty.websocket</groupId>
-	       	<artifactId>javax-websocket-client-impl</artifactId>
-        	<scope>test</scope>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>javax-websocket-client-impl</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
-        	<groupId>org.glassfish</groupId>
-        	<artifactId>javax.json</artifactId>
-        	<scope>test</scope>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     
     <properties>
     	<!-- Update this to point to a liberty server install
         This is needed to find the dependencies to build the code and to run the tests -->
-		<install.directory><!-- <Liberty runtime install dir> --></install.directory>
-		<!-- Update this to match the port number in the JaxrsSample server.xml
-		This is needed to run the tests -->
-		<liberty.test.port.property>9082</liberty.test.port.property>
+        <install.directory><!-- <Liberty runtime install dir> --></install.directory>
+        <!-- Update this to match the port number in the JaxrsSample server.xml
+        This is needed to run the tests -->
+        <liberty.test.port.property>9082</liberty.test.port.property>
 	</properties>
 
     <build>
@@ -157,28 +157,28 @@
             	<artifactId>liberty-maven-plugin</artifactId>
             	<version>1.0</version>
             	<executions>
-            		<execution>
-            			<id>start-server</id>
-            			<phase>pre-integration-test</phase>
-            			<goals>
-            				<goal>start-server</goal>
-            			</goals>
-            			<configuration>
-            				<configFiles>${basedir}/../async-websocket-wlpcfg/servers/websocketSample/server.xml</configFiles>
-            			</configuration>
-            		</execution>
-            		<execution>
-            			<id>stop-server</id>
-            			<phase>post-integration-test</phase>
-            			<goals>
-            				<goal>stop-server</goal>
-            			</goals>
-            		</execution>
+                    <execution>
+                        <id>start-server</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start-server</goal>
+                        </goals>
+                        <configuration>
+                            <configFiles>${basedir}/../async-websocket-wlpcfg/servers/websocketSample/server.xml</configFiles>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-server</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop-server</goal>
+                        </goals>
+                    </execution>
             	</executions>
             	<configuration>
-       				<installDirectory>${install.directory}</installDirectory>
-       				<serverName>websocketSample</serverName>
-       				<userDirectory>${basedir}/../async-websocket-wlpcfg</userDirectory>
+                    <installDirectory>${install.directory}</installDirectory>
+                    <serverName>websocketSample</serverName>
+                    <userDirectory>${basedir}/../async-websocket-wlpcfg</userDirectory>
             	</configuration>
             </plugin>
             <!-- Plugin to run functional tests -->
@@ -187,28 +187,28 @@
             	<artifactId>maven-failsafe-plugin</artifactId>
             	<version>2.18.1</version>
             	<executions>
-            		<execution>
-            			<phase>integration-test</phase>
-            			<id>integration-test</id>
-            			<goals>
-            				<goal>integration-test</goal>
-            			</goals>
-            			<configuration>
-            			    <includes>
-           						<include>**/fvt/**</include>
-           					</includes>
-           					<excludes>
-           						<exclude>**/unit/**</exclude>
-           					</excludes>
-           					<systemPropertyVariables>
-		   						<liberty.test.port>${liberty.test.port.property}</liberty.test.port>
-		      				</systemPropertyVariables>
-            			</configuration>
-            		</execution>
+                    <execution>
+                        <phase>integration-test</phase>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/fvt/**</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/unit/**</exclude>
+                            </excludes>
+                            <systemPropertyVariables>
+                                <liberty.test.port>${liberty.test.port.property}</liberty.test.port>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
             	</executions>
       	        <configuration>
-      				<summaryFile>${project.build.directory}/test-reports/fvt/failsafe-summary.xml</summaryFile>
-      				<reportsDirectory>${project.build.directory}/test-reports/fvt</reportsDirectory>
+                    <summaryFile>${project.build.directory}/test-reports/fvt/failsafe-summary.xml</summaryFile>
+                    <reportsDirectory>${project.build.directory}/test-reports/fvt</reportsDirectory>
       			</configuration>
             </plugin>
             <!-- Plugin to run unit tests -->
@@ -217,19 +217,19 @@
             	<artifactId>maven-surefire-plugin</artifactId>
             	<version>2.18.1</version>
             	<executions>
-            		<execution>
-            			<phase>test</phase>
-            			<id>default-test</id>
-            			<configuration>
-           					<includes>
-           						<include>**/unit/**</include>
-           					</includes>
-           					<excludes>
-           						<exclude>**/fvt/**</exclude>
-           					</excludes>
-           					<reportsDirectory>${project.build.directory}/test-reports/unit</reportsDirectory>
-            			</configuration>
-            		</execution>
+                    <execution>
+                        <phase>test</phase>
+                        <id>default-test</id>
+                        <configuration>
+                            <includes>
+                                <include>**/unit/**</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/fvt/**</exclude>
+                            </excludes>
+                            <reportsDirectory>${project.build.directory}/test-reports/unit</reportsDirectory>
+                        </configuration>
+                    </execution>
             	</executions>
             </plugin>
         </plugins>
