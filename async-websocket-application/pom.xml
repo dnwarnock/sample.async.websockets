@@ -58,7 +58,7 @@
             <dependency>
 		       	<groupId>org.eclipse.jetty.websocket</groupId>
 		       	<artifactId>javax-websocket-client-impl</artifactId>
-		       	<version>9.3.2.v20150730</version>
+		       	<version>9.2.13.v20150730</version>
         	</dependency>
         	<dependency>
 		       	<groupId>org.glassfish</groupId>

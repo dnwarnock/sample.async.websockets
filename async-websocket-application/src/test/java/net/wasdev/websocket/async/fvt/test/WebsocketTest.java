@@ -65,12 +65,12 @@ public class WebsocketTest {
     
     @Test
     public void testEchoEndpointWebSocket() throws Exception {
-    	testWebsocket("EchoEndpoint", "[ep=2, msg=0]: This is a test from EchoEndpoint", false);
+    	testWebsocket("EchoEndpoint", "[ep=3, msg=0]: This is a test from EchoEndpoint", false);
     }
     
     @Test
     public void testEchoAsyncEndpointWebSocket() throws Exception {
-    	testWebsocket("EchoAsyncEndpoint", "[ep=1, msg=0]: This is a test from EchoAsyncEndpoint", false);
+    	testWebsocket("EchoAsyncEndpoint", "[ep=2, msg=0]: This is a test from EchoAsyncEndpoint", false);
     }
     
     @Test
