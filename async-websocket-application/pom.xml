@@ -29,9 +29,6 @@
     </scm>
     
     <properties>
-        <!-- Default location of local liberty or target install directory if libertyLicense system property specified -->
-        <!-- To specify a new location set a system property called libertyRoot to point to this location e.g. mvn -DlibertyRoot=<location> install -->
-        <libertyBaseDir>C:/Liberty</libertyBaseDir>
         <!-- Update this to match the port number in the websocketSample server.xml
         This is needed to run the tests -->
         <libertyTestPort>9082</libertyTestPort>
@@ -263,18 +260,6 @@
     </build>
     
     <profiles>
-        <profile>
-            <id>check-default-liberty-present</id>
-            <activation>
-                <file>
-                    <exists>C:/Liberty/wlp/lib/ws-launch.jar</exists>
-                </file>
-            </activation>
-            <properties>
-                <skipFVT>false</skipFVT>
-                <libertyBaseDir>C:/Liberty</libertyBaseDir>
-            </properties>
-        </profile>
         <profile>
             <id>check-liberty-present</id>
             <activation>

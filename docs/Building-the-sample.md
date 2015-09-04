@@ -22,7 +22,6 @@ $ gradle build publishToMavenLocal
 ```
 
 If you want to also run the functional tests then you need to [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md) and set the libertyRoot property in the gradle.properties file to point to your Liberty install.
-:pushpin: Note: If you are using Windows, installing Liberty into C:\Liberty make the tests run without having to set a property.
 
 ## Building with maven
 
@@ -37,8 +36,6 @@ If you want to also run the functional tests then you need to [Download WAS Libe
 ```bash
 $ mvn -DlibertyRoot=<LibertyInstallLocation> install
 ```
-
-:pushpin: Note: If you are using Windows, installing Liberty into C:\Liberty make the tests run without having to pass in a property.
 
 ## Next step
 

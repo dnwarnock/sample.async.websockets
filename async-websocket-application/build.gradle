@@ -6,7 +6,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'liberty'
 
 ext {
-    libertyBaseDir = project.hasProperty('libertyRoot') ? "${libertyRoot}" : 'C:/Liberty'
+    libertyBaseDir = project.hasProperty('libertyRoot') ? "${libertyRoot}" : null
 }
 
 buildscript {
@@ -110,7 +110,7 @@ liberty {
 
 assemble.dependsOn('publishWar')
 
-if (file("${libertyBaseDir}/wlp/lib/ws-launch.jar").exists()) {
+if (file("${libertyBaseDir}/lib/ws-launch.jar").exists()) {
     check.dependsOn fvt
 }
 
