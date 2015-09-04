@@ -5,6 +5,10 @@ apply plugin: 'maven-publish'
 // Use the Liberty Gradle plugin to run our functional tests
 apply plugin: 'liberty'
 
+ext {
+    libertyBaseDir = project.hasProperty('libertyRoot') ? "${libertyRoot}" : 'C:/Liberty'
+}
+
 buildscript {
     repositories {
         mavenCentral()
@@ -15,7 +19,6 @@ buildscript {
     }
     dependencies {
         classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:1.0-SNAPSHOT'
-        classpath files("${libertyRoot}/bin/tools/ws-server.jar")
     }
 }
 
@@ -49,8 +52,6 @@ task publishWar(dependsOn: 'jar', type: Copy) {
     from(war)
     into('../async-websocket-wlpcfg/servers/websocketSample/apps')
 }
-
-assemble.dependsOn('publishWar')
 
 publishing {
     publications {
@@ -99,15 +100,18 @@ String getHttpPort() {
     return DEFAULT_HTTP_PORT
 }
 
-libertyStart.mustRunAfter publishWar
-
 liberty {
-    wlpDir = "${libertyRoot}"
+    wlpDir = "${libertyBaseDir}/wlp"
     serverName = 'websocketSample'
     userDir = '../async-websocket-wlpcfg'
     // Clean is only supported on the latest Liberty Gradle plugin which isn't on Maven yet
 //    clean = true
 }
 
-check.dependsOn fvt
+assemble.dependsOn('publishWar')
 
+if (file("${libertyBaseDir}/wlp/lib/ws-launch.jar").exists()) {
+    check.dependsOn fvt
+}
+
+libertyStart.dependsOn testClasses
