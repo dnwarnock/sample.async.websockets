@@ -101,7 +101,7 @@ String getHttpPort() {
 }
 
 liberty {
-    wlpDir = "${libertyBaseDir}/wlp"
+    wlpDir = "${libertyBaseDir}"
     serverName = 'websocketSample'
     userDir = '../async-websocket-wlpcfg'
     // Clean is only supported on the latest Liberty Gradle plugin which isn't on Maven yet

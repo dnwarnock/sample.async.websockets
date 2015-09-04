@@ -30,7 +30,7 @@
     
     <properties>
         <!-- Default location of local liberty or target install directory if libertyLicense system property specified -->
-        <!-- To specify a new location set a system property called libertyInstallBaseDir to point to this location e.g. mvn -DlibertyInstallBaseDir=<location> install -->
+        <!-- To specify a new location set a system property called libertyRoot to point to this location e.g. mvn -DlibertyRoot=<location> install -->
         <libertyBaseDir>C:/Liberty</libertyBaseDir>
         <!-- Update this to match the port number in the websocketSample server.xml
         This is needed to run the tests -->
@@ -196,7 +196,7 @@
                     </execution>
             	</executions>
             	<configuration>
-            	    <installDirectory>${libertyBaseDir}/wlp</installDirectory>
+            	    <installDirectory>${libertyBaseDir}</installDirectory>
                     <serverName>websocketSample</serverName>
                     <userDirectory>${basedir}/../async-websocket-wlpcfg</userDirectory>
             	</configuration>
@@ -279,12 +279,12 @@
             <id>check-liberty-present</id>
             <activation>
                 <file>
-                    <exists>${libertyInstallBaseDir}/wlp/lib/ws-launch.jar</exists>
+                    <exists>${libertyRoot}/wlp/lib/ws-launch.jar</exists>
                 </file>
             </activation>
             <properties>
                 <skipFVT>false</skipFVT>
-                <libertyBaseDir>${libertyInstallBaseDir}</libertyBaseDir>
+                <libertyBaseDir>${libertyRoot}</libertyBaseDir>
             </properties>
         </profile>
     </profiles>

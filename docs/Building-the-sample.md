@@ -21,6 +21,9 @@ This sample can be built using [Gradle](http://gradle.org/).
 $ gradle build publishToMavenLocal
 ```
 
+If you want to also run the functional tests then you need to [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md) and set the libertyRoot property in the gradle.properties file to point to your Liberty install.
+:pushpin: Note: If you are using Windows, installing Liberty into C:\Liberty make the tests run without having to set a property.
+
 ## Building with maven
 
 This sample can be built using [Apache Maven](http://maven.apache.org/).
@@ -28,6 +31,14 @@ This sample can be built using [Apache Maven](http://maven.apache.org/).
 ```bash
 $ mvn install
 ```
+
+If you want to also run the functional tests then you need to [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md) and pass in the location of your install as the system property libertyRoot:
+
+```bash
+$ mvn -DlibertyRoot=<LibertyInstallLocation> install
+```
+
+:pushpin: Note: If you are using Windows, installing Liberty into C:\Liberty make the tests run without having to pass in a property.
 
 ## Next step
 
