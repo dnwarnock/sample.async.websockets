@@ -23,9 +23,13 @@ If the sample git repository hasn't been cloned yet, WDT has git tools integrate
 4.  The git repo url should already be filled in.  Select *Next -> Next -> Finish*
 5.  The "sample.async.websockets [master]" repo should appear in the view
 
-### Import Gradle projects into WDT
+### Building the sample in Eclipse
 
-This assumes you have the Gradle IDE tools installed into Eclipse.
+#### Building with Gradle
+
+###### Import Gradle projects into WDT
+
+The git repository has to be loaded as a project before we can build it. This assumes you have the Gradle IDE tools installed into Eclipse.
 
 1. In the Git Repository view, expand the websocket repo to see the "Working Directory" folder
 2.  Right-click on this folder, and select *Copy path to Clipboard*
@@ -37,8 +41,18 @@ This assumes you have the Gradle IDE tools installed into Eclipse.
 
 :star: *Note:* If you did not use Eclipse/WDT to clone the git repository, follow from step 3, but navigate to the cloned repository directory rather than pasting its name in step 4.
 
+###### Run Gradle build
 
-### Import Maven projects into WDT
+1. Right-click on async-websocket/build.gradle
+2. *Run As > Gradle Build...*
+3. In the *Gradle Tasks* section enter "build"
+4. Click *Run*
+
+#### Building with Maven
+
+###### Import Maven projects into WDT
+
+The git repository has to be loaded as a project before we can build it.
 
 1.  In the Git Repository view, expand the websocket repo to see the "Working Directory" folder
 2.  Right-click on this folder, and select *Copy path to Clipboard*
@@ -49,7 +63,16 @@ This assumes you have the Gradle IDE tools installed into Eclipse.
 
 :star: *Note:* If you did not use Eclipse/WDT to clone the git repository, follow from step 3, but navigate to the cloned repository directory rather than pasting its name in step 4.
 
-### Create a Runtime Environment and a Liberty Server
+###### Run Maven install
+
+1. Right-click on async-websocket/pom.xml
+2. *Run As > Maven build...*
+3. In the *Goals* section enter "install"
+4. Click *Run*
+
+### Running the application locally
+
+Pre-requisite: [Download WAS Liberty](docs/Downloading-WAS-Liberty-and-WDT.md)
 
 For the purposes of this sample, we will create the Liberty server (step 3 in the wasdev.net instructions) a little differently to create and customize a Runtime Environment that will allow the server to directly use the configuraiton in the `async-websocket-wlp` project.
 

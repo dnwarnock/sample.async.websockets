@@ -1,3 +1,16 @@
+## Building and running the sample using the command line
+
+### Clone Git Repo
+
+:pushpin: [Switch to Eclipse](/docs/Using-WDT.md#Clone-Git-Repo)
+
+```bash
+
+$ git clone https://github.com/WASdev/sample.async.websockets.git
+
+```
+
+### Building the sample
 This sample can be built using either [Gradle](#building-with-gradle) or [Maven](#building-with-maven).
 
 In addition to publishing the war to the local maven repository, the built war file is copied into the apps directory of the server configuration located in the async-websocket-wlpcfg directory:
@@ -13,9 +26,9 @@ async-websocket-wlpcfg
         +- workarea                            <- created by running the server locally
 ```
 
-## Building with Gradle
+#### Building using the Command Line
 
-This sample can be built using [Gradle](http://gradle.org/).
+###### [Gradle](http://gradle.org/) commands
 
 ```bash
 $ gradle build publishToMavenLocal
@@ -23,9 +36,7 @@ $ gradle build publishToMavenLocal
 
 If you want to also run the functional tests then you need to [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md) and set the libertyRoot property in the gradle.properties file to point to your Liberty install.
 
-## Building with maven
-
-This sample can be built using [Apache Maven](http://maven.apache.org/).
+###### [Apache Maven](http://maven.apache.org/) commands
 
 ```bash
 $ mvn install
@@ -37,6 +48,20 @@ If you want to also run the functional tests then you need to [Download WAS Libe
 $ mvn -DlibertyRoot=<LibertyInstallLocation> install
 ```
 
-## Next step
+### Running the application locally
 
-[Downloading WAS Liberty](/docs/Downloading-WAS-Liberty.md)
+Pre-requisite: [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md)
+
+Use the following to start the server and run the application:
+
+```bash
+$ export WLP_USER_DIR=/path/to/sample.async.websockets/async-websocket-wlpcfg
+$ /path/to/wlp/bin/server run websocketSample
+```
+
+* `run` runs the server in the foreground.
+* `start` runs the server in the background. Look in the logs directory for console.log to see what's going on, e.g.
+
+```bash
+$ tail -f ${WLP_USER_DIR}/servers/websocketSample/logs/console.log
+```
