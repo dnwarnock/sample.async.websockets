@@ -14,6 +14,8 @@ This sample contains a few variations to illustrate how to use WebSockets in Jav
 
 This sample also includes a WebSocket client, [AnnotatedClientEndpoint](/async-websocket-application//src/main/java/net/wasdev/websocket/AnnotatedClientEndpoint.java), which can be brought into the conversation with either the *Echo sample* or the *Echo async sample* by providing `client` as input.
 
+## Getting Started
+
 Browse the code to see what it does, or build and run it yourself:
 
 * [Using the command line](/docs/Using-cmd-line.md)
