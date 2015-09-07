@@ -12,6 +12,7 @@ Installing WDT on Eclipse is as simple as a drag-and-drop, but the process is ex
 [wasdev-wdt]: https://developer.ibm.com/wasdev/downloads/liberty-profile-using-eclipse/
 
 ### Clone Git Repo
+:pushpin: [Switch to cmd line example](/docs/Using-cmd-line.md/#clone-git-repo)
 
 If the sample git repository hasn't been cloned yet, WDT has git tools integrated into the IDE:
 
@@ -24,6 +25,7 @@ If the sample git repository hasn't been cloned yet, WDT has git tools integrate
 5.  The "sample.async.websockets [master]" repo should appear in the view
 
 ### Building the sample in Eclipse
+:pushpin: [Switch to cmd line example](/docs/Using-cmd-line.md/#building-using-the-command-line)
 
 #### Building with Gradle
 
@@ -71,6 +73,7 @@ The git repository has to be loaded as a project before we can build it.
 4. Click *Run*
 
 ### Running the application locally
+:pushpin: [Switch to cmd line example](/docs/Using-cmd-line.md/#running-the-application-locally)
 
 Pre-requisite: [Download WAS Liberty](docs/Downloading-WAS-Liberty-and-WDT.md)
 

@@ -1,8 +1,7 @@
 ## Building and running the sample using the command line
 
 ### Clone Git Repo
-
-:pushpin: [Switch to Eclipse](/docs/Using-WDT.md#Clone-Git-Repo)
+:pushpin: [Switch to Eclipse example](/docs/Using-WDT.md/#clone-git-repo)
 
 ```bash
 
@@ -11,6 +10,8 @@ $ git clone https://github.com/WASdev/sample.async.websockets.git
 ```
 
 ### Building the sample
+:pushpin: [Switch to Eclipse example](/docs/Using-WDT.md/#building-the-sample-in-eclipse)
+
 This sample can be built using either [Gradle](#building-with-gradle) or [Maven](#building-with-maven).
 
 In addition to publishing the war to the local maven repository, the built war file is copied into the apps directory of the server configuration located in the async-websocket-wlpcfg directory:
@@ -48,7 +49,8 @@ If you want to also run the functional tests then you need to [Download WAS Libe
 $ mvn -DlibertyRoot=<LibertyInstallLocation> install
 ```
 
-### Running the application locally :pushpin: [in Eclipse](/docs/Using-WDT.md/###Running-the-application-locally)
+### Running the application locally
+:pushpin: [Switch to Eclipse example](/docs/Using-WDT.md/#running-the-application-locally)
 
 Pre-requisite: [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md)
 
