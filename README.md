@@ -16,11 +16,9 @@ This sample also includes a WebSocket client, [AnnotatedClientEndpoint](/async-w
 
 Browse the code to see what it does, or build and run it yourself:
 
-* [Building with Gradle](/docs/Building-the-sample.md#building-with-gradle)
-* [Building with maven](/docs/Building-the-sample.md#building-with-maven)
-* [Downloading WAS Liberty](/docs/Downloading-WAS-Liberty.md)
-* [Start the server using the command line, or maven/gradle plugins](/docs/Starting-the-server.md)
+* [Using the command line](/docs/Using-cmd-line.md)
 * [Using Eclipse and WebSphere Development Tools (WDT)](/docs/Using-WDT.md)
+* [Downloading WAS Liberty](/docs/Downloading-WAS-Liberty.md)
 
 Once the server has been started, go to [http://localhost:9082/websocket/](http://localhost:9082/websocket/) to interact with the sample. Cross-reference the source to understand what the client side (Java or JavaScript) and server side (Java) are doing.
 

@@ -27,7 +27,7 @@ async-websocket-wlpcfg
         +- workarea                            <- created by running the server locally
 ```
 
-#### Building using the Command Line
+#### Building using the command line
 
 ###### [Gradle](http://gradle.org/) commands
 
