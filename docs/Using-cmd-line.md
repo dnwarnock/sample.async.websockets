@@ -48,7 +48,7 @@ If you want to also run the functional tests then you need to [Download WAS Libe
 $ mvn -DlibertyRoot=<LibertyInstallLocation> install
 ```
 
-### Running the application locally
+### Running the application locally :pushpin: [in Eclipse](/docs/Using-WDT.md/###Running-the-application-locally)
 
 Pre-requisite: [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md)
 
