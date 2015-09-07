@@ -25,7 +25,7 @@ If the sample git repository hasn't been cloned yet, WDT has git tools integrate
 5.  The "sample.async.websockets [master]" repo should appear in the view
 
 ### Building the sample in Eclipse
-:pushpin: [Switch to cmd line example](/docs/Using-cmd-line.md/#building-using-the-command-line)
+:pushpin: [Switch to cmd line example](/docs/Using-cmd-line.md/#building-the-sample)
 
 #### Building with Gradle
 
@@ -79,7 +79,7 @@ Pre-requisite: [Download WAS Liberty](docs/Downloading-WAS-Liberty-and-WDT.md)
 
 For the purposes of this sample, we will create the Liberty server (step 3 in the wasdev.net instructions) a little differently to create and customize a Runtime Environment that will allow the server to directly use the configuraiton in the `async-websocket-wlp` project.
 
-#### Create a Runtime Environment in Eclipse
+###### Create a Runtime Environment in Eclipse
 
 1. Open the 'Runtime Explorer' view:
     * *Window -> Show View -> Other*
@@ -91,7 +91,7 @@ For the purposes of this sample, we will create the Liberty server (step 3 in th
     * select *Install from an archive or a repository* to download a new Liberty archive.
 5. Follow the prompts (and possibly choose additional features to install) until you *Finish* creating the Runtime Environment
 
-#### Add the User directory from the maven or Gradle project, and create a server
+###### Add the User directory from the maven or Gradle project, and create a server
 
 1. Right-click on the Runtime Environment created above in the 'Runtime Explorer' view, and select *Edit*
 2. Click the `Advanced Options...` link
@@ -104,7 +104,7 @@ For the purposes of this sample, we will create the Liberty server (step 3 in th
    The default name for this server can vary, you might also opt to rename it from the Right-click menu in the Servers view to make it easier to identify.
 6. Click *Finish*
 
-#### Running Liberty and the sample application from WDT
+###### Running Liberty and the sample application from WDT
 
 1.  Select the `async-websocket-application` project
 2.  Right-click -> *Run As... -> Run On Server*
@@ -113,6 +113,6 @@ For the purposes of this sample, we will create the Liberty server (step 3 in th
 
 :star: *Note:* Some versions of WDT incorrectly map the cdi-1.2 dependency to the CDI 1.0 Facet, which prevents the *Run As ...* operation in step 2 from succeeding. If this happens, Right-click on the `async-jaxrs-application` project, and select *Properties*, then select *Project Facets* in the left-hand pane. Change the the "Context and dependency injection (CDI)" facet to use version 1.2, at which point, step 2 (above) should work. 
 
-## Tips
+#### Tips
 
 * When importing the existing maven project into Eclipse, Eclipse will (by default) "helpfully" add this project to an (extraneous) ear. To turn this off, go to Preferences -> Java EE -> Project, and uncheck "Add project to an EAR" before you import the project. If you forgot to do this, just delete the ear project; no harm.

@@ -14,7 +14,7 @@ $ git clone https://github.com/WASdev/sample.async.websockets.git
 
 This sample can be built using either [Gradle](http://gradle.org/) or [Maven](http://maven.apache.org/).
 
-#### Gradle commands
+###### Gradle commands
 
 ```bash
 $ gradle build publishToMavenLocal
@@ -22,12 +22,13 @@ $ gradle build publishToMavenLocal
 
 If you want to also run the functional tests then you need to [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md) and set the libertyRoot property in the gradle.properties file to point to your Liberty install.
 
-#### Apache Maven commands
+###### Apache Maven commands
 
 ```bash
 $ mvn install
 ```
 
+###### Note:
 If you want to also run the functional tests then you need to [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md) and pass in the location of your install as the system property libertyRoot:
 
 ```bash
