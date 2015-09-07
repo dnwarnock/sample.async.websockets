@@ -12,7 +12,27 @@ $ git clone https://github.com/WASdev/sample.async.websockets.git
 ### Building the sample
 :pushpin: [Switch to Eclipse example](/docs/Using-WDT.md/#building-the-sample-in-eclipse)
 
-This sample can be built using either [Gradle](#building-with-gradle) or [Maven](#building-with-maven).
+This sample can be built using either [Gradle](http://gradle.org/) or [Maven](http://maven.apache.org/).
+
+#### Gradle commands
+
+```bash
+$ gradle build publishToMavenLocal
+```
+
+If you want to also run the functional tests then you need to [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md) and set the libertyRoot property in the gradle.properties file to point to your Liberty install.
+
+#### Apache Maven commands
+
+```bash
+$ mvn install
+```
+
+If you want to also run the functional tests then you need to [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md) and pass in the location of your install as the system property libertyRoot:
+
+```bash
+$ mvn -DlibertyRoot=<LibertyInstallLocation> install
+```
 
 In addition to publishing the war to the local maven repository, the built war file is copied into the apps directory of the server configuration located in the async-websocket-wlpcfg directory:
 
@@ -25,28 +45,6 @@ async-websocket-wlpcfg
            +- async-websocket-application.war  <- sample application
         +- logs                                <- created by running the server locally
         +- workarea                            <- created by running the server locally
-```
-
-#### Building using the command line
-
-###### [Gradle](http://gradle.org/) commands
-
-```bash
-$ gradle build publishToMavenLocal
-```
-
-If you want to also run the functional tests then you need to [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md) and set the libertyRoot property in the gradle.properties file to point to your Liberty install.
-
-###### [Apache Maven](http://maven.apache.org/) commands
-
-```bash
-$ mvn install
-```
-
-If you want to also run the functional tests then you need to [Download WAS Liberty](/docs/Downloading-WAS-Liberty.md) and pass in the location of your install as the system property libertyRoot:
-
-```bash
-$ mvn -DlibertyRoot=<LibertyInstallLocation> install
 ```
 
 ### Running the application locally
