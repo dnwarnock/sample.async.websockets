@@ -27,7 +27,9 @@ If the sample git repository hasn't been cloned yet, WDT has git tools integrate
 ### Building the sample in Eclipse
 :pushpin: [Switch to cmd line example](/docs/Using-cmd-line.md/#building-the-sample)
 
-#### Building with Gradle
+This sample can be built using either [Gradle](#building-with-gradle) or [Maven](#building-with-maven).
+
+#### Building with [Gradle](http://gradle.org/)
 
 ###### Import Gradle projects into WDT
 
@@ -53,7 +55,7 @@ This assumes you have the Gradle [Buildship](https://projects.eclipse.org/projec
 3. In the *Gradle Tasks* section enter "build"
 4. Click *Run*
 
-#### Building with Maven
+#### Building with [Maven](http://maven.apache.org/)
 
 ###### Import Maven projects into WDT
 
