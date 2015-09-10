@@ -14,13 +14,13 @@ This sample contains a few variations to illustrate how to use WebSockets in Jav
 
 This sample also includes a WebSocket client, [AnnotatedClientEndpoint](/async-websocket-application//src/main/java/net/wasdev/websocket/AnnotatedClientEndpoint.java), which can be brought into the conversation with either the *Echo sample* or the *Echo async sample* by providing `client` as input.
 
+## Getting Started
+
 Browse the code to see what it does, or build and run it yourself:
 
-* [Building with Gradle](/docs/Building-the-sample.md#building-with-gradle)
-* [Building with maven](/docs/Building-the-sample.md#building-with-maven)
+* [Building and running on the command line](/docs/Using-cmd-line.md)
+* [Building and running using Eclipse and WebSphere Development Tools (WDT)](/docs/Using-WDT.md)
 * [Downloading WAS Liberty](/docs/Downloading-WAS-Liberty.md)
-* [Start the server using the command line, or maven/gradle plugins](/docs/Starting-the-server.md)
-* [Using Eclipse and WebSphere Development Tools (WDT)](/docs/Using-WDT.md)
 
 Once the server has been started, go to [http://localhost:9082/websocket/](http://localhost:9082/websocket/) to interact with the sample. Cross-reference the source to understand what the client side (Java or JavaScript) and server side (Java) are doing.
 
