@@ -51,7 +51,7 @@ This assumes you have the Gradle [Buildship](https://projects.eclipse.org/projec
 ###### Run Gradle build
 
 1. Right-click on async-websocket/build.gradle
-2. *Run As > Gradnle Build...*
+2. *Run As > Gradle Build...*
 3. In the *Gradle Tasks* section enter "build"
 4. Click *Run*
 

@@ -264,7 +264,7 @@
             <id>check-liberty-present</id>
             <activation>
                 <file>
-                    <exists>${libertyRoot}/wlp/lib/ws-launch.jar</exists>
+                    <exists>${libertyRoot}/lib/ws-launch.jar</exists>
                 </file>
             </activation>
             <properties>
