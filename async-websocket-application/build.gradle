@@ -5,10 +5,6 @@ apply plugin: 'maven-publish'
 // Use the Liberty Gradle plugin to run our functional tests
 apply plugin: 'liberty'
 
-ext {
-    libertyBaseDir = project.hasProperty('libertyRoot') ? "${libertyRoot}" : null
-}
-
 buildscript {
     repositories {
         mavenCentral()
@@ -18,7 +14,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:1.0-SNAPSHOT'
+        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:1.1-SNAPSHOT'
     }
 }
 
@@ -67,7 +63,7 @@ publishing {
 
 // Add a functional test task that runs during the 'check' phase that uses the Liberty Gradle plugin
 // to launch Liberty and run the test classes in the fvt source set
-task fvt(type: Test, dependsOn: jar) {
+task fvt(type: Test, dependsOn: publishWar) {
     group 'Verification'
     description 'Runs the functional verification tests.'
     reports.html.destination = file("$buildDir/reports/fvt")
@@ -75,7 +71,7 @@ task fvt(type: Test, dependsOn: jar) {
     include '**/fvt/**'
     exclude '**/unit/**'
     systemProperties = ['liberty.test.port': getHttpPort()]
-    dependsOn publishWar, libertyStart
+    dependsOn libertyStart
     finalizedBy libertyStop
 }
 
@@ -101,17 +97,21 @@ String getHttpPort() {
 }
 
 liberty {
-    wlpDir = "${libertyBaseDir}"
+    wlpDir = owner.hasProperty('libertyRoot') ? "${libertyRoot}" : null
     serverName = 'websocketSample'
     userDir = '../async-websocket-wlpcfg'
-    // Clean is only supported on the latest Liberty Gradle plugin which isn't on Maven yet
-//    clean = true
+    clean = true
+    install {
+        type = "javaee7"
+    }
 }
 
 assemble.dependsOn('publishWar')
 
-if (file("${libertyBaseDir}/lib/ws-launch.jar").exists()) {
-    check.dependsOn fvt
+// If libertyRoot is not set, automatically download & install Liberty runtime
+if (!hasProperty('libertyRoot')) {
+    fvt.dependsOn('installLiberty')
 }
 
-libertyStart.dependsOn testClasses
+// Run FVT by default
+check.dependsOn fvt
