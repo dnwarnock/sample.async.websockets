@@ -1,5 +1,0 @@
-apply plugin: 'eclipse'
-
-subprojects {
-    apply plugin: 'eclipse'
-}

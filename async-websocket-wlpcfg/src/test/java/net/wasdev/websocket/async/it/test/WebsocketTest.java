@@ -1,4 +1,4 @@
-package net.wasdev.websocket.async.fvt.test;
+package net.wasdev.websocket.async.it.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
