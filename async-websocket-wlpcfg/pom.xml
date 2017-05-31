@@ -54,24 +54,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.10</version>
-                <executions>
-                    <execution>
-                        <id>copy-server-files</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <includeGroupIds>net.wasdev.wlp.starters.servers</includeGroupIds>
-                    <outputDirectory>${project.build.directory}/wlp/usr/servers/${wlpServerName}/configDropins/defaults</outputDirectory>
-                </configuration>
-            </plugin>
             <!-- Enable liberty-maven plugin -->
             <plugin>
                 <groupId>net.wasdev.wlp.maven.plugins</groupId>
@@ -86,46 +68,17 @@
                         <default.http.port>${testServerHttpPort}</default.http.port>
                         <default.https.port>${testServerHttpsPort}</default.https.port>
                     </bootstrapProperties>
-                    <install />
+                    <stripVersion>true</stripVersion>
+                    <install/>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>install-feature</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>install-feature</goal>
-                        </goals>
+                        <id>default-install-feature</id>
                         <configuration>
                             <features>
                                 <acceptLicense>true</acceptLicense>
                             </features>
                         </configuration>
-                    </execution>
-                    <execution>
-                        <id>start-server</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start-server</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>stop-server</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop-server</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>compile-test</id>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -133,71 +86,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.18.1</version>
-                <executions>
-                    <execution>
-                        <phase>integration-test</phase>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>**/it/**</include>
-                            </includes>
-                            <systemPropertyVariables>
-                                <liberty.test.port>${testServerHttpPort}</liberty.test.port>
-                                <war.name>${warName}-${warVersion}</war.name>
-                            </systemPropertyVariables>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>verify-results</id>
-                        <goals>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <summaryFile>${project.build.directory}/test-reports/fvt/failsafe-summary.xml</summaryFile>
                     <reportsDirectory>${project.build.directory}/test-reports/fvt</reportsDirectory>
+                    <systemPropertyVariables>
+                    	<liberty.test.port>${testServerHttpPort}</liberty.test.port>
+                    	<war.name>${warName}-${warVersion}</war.name>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>stopServer</id>
-            <build>
-                <plugins>
-                    <!-- Enable liberty-maven plugin -->
-                    <plugin>
-                        <groupId>net.wasdev.wlp.maven.plugins</groupId>
-                        <artifactId>liberty-maven-plugin</artifactId>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverName>${wlpServerName}</serverName>
-                            <assemblyInstallDirectory>${project.build.directory}</assemblyInstallDirectory>
-                            <configFile>${basedir}/servers/${wlpServerName}/server.xml</configFile>
-                            <include>usr</include>
-                            <bootstrapProperties>
-                                <default.http.port>${testServerHttpPort}</default.http.port>
-                                <default.https.port>${testServerHttpsPort}</default.https.port>
-                            </bootstrapProperties>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>stop-server-clean</id>
-                                <phase>pre-clean</phase>
-                                <goals>
-                                    <goal>stop-server</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
