@@ -69,7 +69,9 @@
                         <default.https.port>${testServerHttpsPort}</default.https.port>
                     </bootstrapProperties>
                     <stripVersion>true</stripVersion>
-                    <install/>
+                    <install>
+                    	<version>17.0.0_01</version>
+                    </install>
                 </configuration>
                 <executions>
                     <execution>
@@ -91,7 +93,6 @@
                     <reportsDirectory>${project.build.directory}/test-reports/fvt</reportsDirectory>
                     <systemPropertyVariables>
                     	<liberty.test.port>${testServerHttpPort}</liberty.test.port>
-                    	<war.name>${warName}-${warVersion}</war.name>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
