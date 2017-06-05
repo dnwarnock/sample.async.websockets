@@ -5,17 +5,7 @@ import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
-import javax.json.JsonArray;
-import javax.json.JsonNumber;
-import javax.json.JsonObject;
-import javax.json.JsonString;
-import javax.json.JsonValue;
-import javax.json.JsonValue.ValueType;
 import javax.websocket.ClientEndpoint;
 import javax.websocket.ContainerProvider;
 import javax.websocket.OnError;
@@ -35,22 +25,22 @@ import org.junit.runners.Parameterized;
  * </ul>
  */
 @ClientEndpoint
-public class WebsocketTest {
+public class WebsocketIT {
 
     private Session session;
     private static String response = null;
     private static String error = null;
     
     // We need a no-arg constructor because Jetty attempts to create an instance of this class using reflection.
-    public WebsocketTest() {
+    public WebsocketIT() {
     	
     }
     
     @Before
     public void cleanTestVars() {
     	// Reset the static variables we use to test that the responses are correct.
-    	WebsocketTest.response = null;
-    	WebsocketTest.error = null;
+    	WebsocketIT.response = null;
+    	WebsocketIT.error = null;
     }
     
     @Test
@@ -94,7 +84,7 @@ public class WebsocketTest {
 	        String websocketURL = "ws://localhost:" + port + "/websocket/" + websocketEndpoint;
 	        URI uriServerEP = URI.create(websocketURL);
 			// Connect to the websocket
-	        session = c.connectToServer(WebsocketTest.class, uriServerEP);
+	        session = c.connectToServer(WebsocketIT.class, uriServerEP);
 			
 	        // Set a default text to send. If we need to send an object, create the JSON String instead.
 	        String textToSend = "This is a test from " + websocketEndpoint;
@@ -107,14 +97,14 @@ public class WebsocketTest {
 			
 			// Now wait for up to 5 secs to get the response back.
     		int count = 0;
-    		while (WebsocketTest.response == null && count < 10) {
+    		while (WebsocketIT.response == null && count < 10) {
     			count++;
     			Thread.sleep(500);
     		}
     		
     		// Run the Test asserts to ensure we have received the correct string, and that we haven't hit any errors.
-    		assertEquals("Message sent from the server doesn't match expected String", expectedResponse, WebsocketTest.response);
-    		assertNull("There was an unexpected error during test: " + WebsocketTest.error, WebsocketTest.error);
+    		assertEquals("Message sent from the server doesn't match expected String", expectedResponse, WebsocketIT.response);
+    		assertNull("There was an unexpected error during test: " + WebsocketIT.error, WebsocketIT.error);
     		
     	} finally {
     		// Finally if we have created a session, close it off.
@@ -137,7 +127,7 @@ public class WebsocketTest {
 	 */
 	@OnMessage
 	public void receiveMessage(String message, Session session) throws IOException {
-		WebsocketTest.response = message;
+		WebsocketIT.response = message;
 	}
 	
 	/**
@@ -147,6 +137,6 @@ public class WebsocketTest {
 	 */
 	@OnError
 	public void onError(Throwable t) {
-		WebsocketTest.error = t.getMessage();
+		WebsocketIT.error = t.getMessage();
 	}
 }
