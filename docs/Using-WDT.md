@@ -25,10 +25,8 @@ If the sample git repository hasn't been cloned yet, WDT has git tools integrate
 4.  The git repo url should already be filled in.  Select *Next -> Next -> Finish*
 5.  The "sample.async.websockets [master]" repo should appear in the view
 
-### Building the sample in Eclipse
+### Building the sample in Eclipse with Maven
 :pushpin: [Switch to cmd line example](/docs/Using-cmd-line.md/#building-the-sample)
-
-#### Building with [Maven](http://maven.apache.org/)
 
 ###### Import Maven projects into WDT
 
@@ -37,7 +35,7 @@ If the sample git repository hasn't been cloned yet, WDT has git tools integrate
 3.  Select menu *File -> Import -> Maven -> Existing Maven Projects*
 4.  In the Root Directory textbox, Paste in the repository directory.
 5.  Select *Browse...* button and select *Finish* (confirm it finds 3 pom.xml files)
-6.  This will create 3 projects in Eclipse: async-websocket, async-websocket-application, and async-websocket-wlpcfg
+6.  This will create 3 projects in Eclipse: sample.async-websockets, async-websocket-application, and async-websocket-wlpcfg
 
 :star: *Note:* If you did not use Eclipse/WDT to clone the git repository, follow from step 3, but navigate to the cloned repository directory rather than pasting its name in step 4.
 
@@ -61,7 +59,7 @@ For the purposes of this sample, we will create the Liberty server (step 3 in th
 2. Right-click in the view, and select *New -> Runtime Environment*
 3. Give the Runtime environment a name, e.g. `wlp_websocket_server`
 4. Select the installation created at `sample.async.websocket/async-websocket-wlpcfg/target/wlp/`
-5. Follow the prompts (need feature were installed during `mvn install`) until you *Finish* creating the Runtime Environment
+5. Follow the prompts until you *Finish* creating the Runtime Environment. (Needed features were installed during `mvn install`)
 
 ###### Add the User directory from the maven project, and create a server
 

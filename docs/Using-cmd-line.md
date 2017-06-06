@@ -42,16 +42,23 @@ async-websocket-wlpcfg
 ### Running the application locally
 :pushpin: [Switch to Eclipse example](/docs/Using-WDT.md/#running-the-application-locally)
 
-Use the following to start the server and run the application:
+Change the current directory to the `async-websocket-wlpcfg` sub-project, and use the following commands to start the server and run the application:
 
-background:
+To run the server in the foreground:
+
+```bash
+$ mvn liberty:run-server
+```
+
+To run the server in a background process:
 
 ```bash
 $ mvn liberty:start-server
 ```
 
-foreground:
-
+To stop the server:
 ```bash
-$ mvn liberty:run-server
+$ mvn liberty:stop-server
 ```
+
+
