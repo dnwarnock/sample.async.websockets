@@ -1,0 +1,8 @@
+language: java
+matrix:
+  include:
+    - jdk: oraclejdk7
+    - jdk: oraclejdk8
+before_script: cd async-websocket-wlpfg
+script:
+  - mvn install
