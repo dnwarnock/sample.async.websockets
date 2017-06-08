@@ -1,4 +1,4 @@
-# Java EE7: WebSockets
+# Java EE7: WebSockets [![Build Status](https://travis-ci.org/WASdev/sample.async.websockets.svg?branch=master)]
 
 The [WebSockets standard](#more-on-websockets) defines a full-duplex communication protocol to simplify and streamline long-running communications between a client and a server. The protocol has a well-defined wire format that allows for text or binary messages to be interleaved at will: either side of the connection can send messages at any time, in any order (which is a significant difference from the requirements of Comet or other long-polling mechanisms which require management of several connections to emulate bidirectional communication). The wire format is compact and efficient, making it ideal for small messages.
 
